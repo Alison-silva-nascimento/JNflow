@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="JNFlow - Gestão de eventos e organização"
+    >
+
+    <title>Entrar | JNFlow</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="assets/images/JNlogo.png"
+    >
+
+    <style>
+        /* =========================================
+           JNFLOW LOGIN
+        ========================================= */
+
+        :root {
+            --bg: #050505;
+            --surface: #0b0b0a;
+            --surface-soft: #10100e;
+
+            --gold: #d9ad24;
+            --gold-light: #efc83d;
+            --gold-dark: #8f6d0c;
+
+            --text: #f5f5f3;
+            --text-secondary: #a5a39e;
+            --text-muted: #66645f;
+
+            --border: rgba(217, 173, 36, 0.22);
+            --border-strong: rgba(217, 173, 36, 0.42);
+
+            --danger: #ff647c;
+            --danger-bg: rgba(255, 100, 124, 0.08);
+
+            --success: #48d989;
+            --success-bg: rgba(72, 217, 137, 0.08);
+        }
+
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(217, 173, 36, 0.10),
+                    transparent 34%
+                ),
+                linear-gradient(
+                    180deg,
+                    #080806 0%,
+                    #050505 45%,
+                    #030303 100%
+                );
+
+            overflow-x: hidden;
+        }
+
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .login-page {
+            position: relative;
+
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px 24px;
+
+            isolation: isolate;
+        }
+
+
+        /* brilho decorativo */
+
+        .login-page::before {
+            content: "";
+
+            position: fixed;
+            z-index: -1;
+
+            top: -250px;
+            left: 50%;
+
+            width: 700px;
+            height: 500px;
+
+            transform: translateX(-50%);
+
+            border-radius: 50%;
+
+            background:
+                rgba(217, 173, 36, 0.06);
+
+            filter: blur(110px);
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================
+           WRAPPER
+        ========================================= */
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+        }
+
+
+        /* =========================================
+           BRAND
+        ========================================= */
+
+        .login-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            margin-bottom: 32px;
+
+            text-align: center;
+        }
+
+
+        .login-logo {
+            width: 86px;
+            height: 86px;
+
+            object-fit: contain;
+
+            margin-bottom: 15px;
+
+            filter:
+                drop-shadow(
+                    0 8px 22px rgba(217, 173, 36, 0.14)
+                );
+        }
+
+
+        .login-brand-name {
+            font-size: 28px;
+            font-weight: 800;
+
+            letter-spacing: -0.8px;
+
+            color: #ffffff;
+        }
+
+
+        .login-brand-subtitle {
+            margin-top: 4px;
+
+            font-size: 12px;
+            font-weight: 500;
+
+            color: var(--text-secondary);
+        }
+
+
+        /* =========================================
+           CARD
+        ========================================= */
+
+        .login-card {
+            position: relative;
+
+            padding: 32px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(18, 18, 15, 0.97),
+                    rgba(8, 8, 7, 0.98)
+                );
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.42);
+
+            overflow: hidden;
+        }
+
+
+        /* detalhe dourado */
+
+        .login-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 32px;
+
+            width: 68px;
+            height: 3px;
+
+            border-radius: 0 0 5px 5px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--gold-dark),
+                    var(--gold-light)
+                );
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .login-eyebrow {
+            display: block;
+
+            margin-bottom: 9px;
+
+            color: var(--gold);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .login-title {
+            color: #ffffff;
+
+            font-size: 25px;
+            font-weight: 800;
+
+            letter-spacing: -0.6px;
+        }
+
+
+        .login-description {
+            margin-top: 7px;
+            margin-bottom: 27px;
+
+            color: var(--text-secondary);
+
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+
+        /* =========================================
+           FORM
+        ========================================= */
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        .form-label {
+            color: #d4d3cf;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+
+        .input-wrapper {
+            position: relative;
+        }
+
+
+        .form-input {
+            width: 100%;
+            height: 50px;
+
+            padding: 0 15px;
+
+            border:
+                1px solid rgba(217, 173, 36, 0.20);
+
+            border-radius: 11px;
+
+            outline: none;
+
+            background: rgba(3, 3, 3, 0.72);
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            transition:
+                border-color 160ms ease,
+                box-shadow 160ms ease,
+                background 160ms ease;
+        }
+
+
+        .form-input::placeholder {
+            color: #55544f;
+        }
+
+
+        .form-input:hover {
+            border-color:
+                rgba(217, 173, 36, 0.32);
+        }
+
+
+        .form-input:focus {
+            border-color:
+                rgba(217, 173, 36, 0.68);
+
+            background: #050505;
+
+            box-shadow:
+                0 0 0 3px rgba(217, 173, 36, 0.07);
+        }
+
+
+        /* =========================================
+           PASSWORD
+        ========================================= */
+
+        .password-input {
+            padding-right: 48px;
+        }
+
+
+        .password-toggle {
+            position: absolute;
+
+            top: 50%;
+            right: 10px;
+
+            width: 34px;
+            height: 34px;
+
+            transform: translateY(-50%);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 0;
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: #77756f;
+
+            cursor: pointer;
+
+            transition:
+                background 160ms ease,
+                color 160ms ease;
+        }
+
+
+        .password-toggle:hover {
+            color: var(--gold);
+
+            background:
+                rgba(217, 173, 36, 0.07);
+        }
+
+
+        /* =========================================
+           BUTTON
+        ========================================= */
+
+        .login-button {
+            width: 100%;
+            height: 52px;
+
+            margin-top: 4px;
+
+            border: 1px solid
+                rgba(239, 200, 61, 0.45);
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #b98a14,
+                    #e4b92d
+                );
+
+            color: #080704;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 28px
+                rgba(217, 173, 36, 0.10);
+
+            transition:
+                transform 150ms ease,
+                filter 150ms ease,
+                box-shadow 150ms ease;
+        }
+
+
+        .login-button:hover:not(:disabled) {
+            filter: brightness(1.07);
+
+            box-shadow:
+                0 14px 34px
+                rgba(217, 173, 36, 0.16);
+        }
+
+
+        .login-button:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+
+        .login-button:disabled {
+            opacity: 0.58;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================================
+           FEEDBACK
+        ========================================= */
+
+        .login-message {
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 12px 14px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            line-height: 1.45;
+        }
+
+
+        .login-message.error {
+            display: block;
+
+            border:
+                1px solid rgba(255, 100, 124, 0.24);
+
+            background: var(--danger-bg);
+
+            color: var(--danger);
+        }
+
+
+        .login-message.success {
+            display: block;
+
+            border:
+                1px solid rgba(72, 217, 137, 0.24);
+
+            background: var(--success-bg);
+
+            color: var(--success);
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .login-footer {
+            margin-top: 22px;
+
+            text-align: center;
+
+            color: var(--text-muted);
+
+            font-size: 10px;
+            font-weight: 500;
+
+            letter-spacing: 0.2px;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 520px) {
+
+            .login-page {
+                align-items: center;
+
+                padding:
+                    28px 18px;
+            }
+
+
+            .login-wrapper {
+                max-width: 100%;
+            }
+
+
+            .login-brand {
+                margin-bottom: 25px;
+            }
+
+
+            .login-logo {
+                width: 72px;
+                height: 72px;
+
+                margin-bottom: 11px;
+            }
+
+
+            .login-brand-name {
+                font-size: 25px;
+            }
+
+
+            .login-card {
+                padding:
+                    28px 22px;
+
+                border-radius: 17px;
+            }
+
+
+            .login-card::before {
+                left: 22px;
+
+                width: 58px;
+            }
+
+
+            .login-title {
+                font-size: 23px;
+            }
+
+
+            .login-description {
+                margin-bottom: 24px;
+            }
+
+
+            .form-input {
+                height: 49px;
+            }
+
+
+            .login-button {
+                height: 50px;
+            }
+        }
+
+
+        @media (max-height: 650px) and (min-width: 521px) {
+
+            .login-page {
+                align-items: flex-start;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <main class="login-page">
+
+        <div class="login-wrapper">
+
+
+            <!-- =====================================
+                 BRAND
+            ====================================== -->
+
+            <header class="login-brand">
+
+                <img
+                    src="assets/images/JNlogo.png"
+                    alt="JNFlow"
+                    class="login-logo"
+                >
+
+                <h1 class="login-brand-name">
+                    JNFlow
+                </h1>
+
+                <p class="login-brand-subtitle">
+                    Eventos & Organização
+                </p>
+
+            </header>
+
+
+            <!-- =====================================
+                 LOGIN CARD
+            ====================================== -->
+
+            <section class="login-card">
+
+                <span class="login-eyebrow">
+                    ACESSO
+                </span>
+
+                <h2 class="login-title">
+                    Bem-vinda.
+                </h2>
+
+                <p class="login-description">
+                    Entre com sua conta para acessar sua agenda e gerenciar seus eventos.
+                </p>
+
+
+                <form
+                    id="loginForm"
+                    class="login-form"
+                    novalidate
+                >
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="email"
+                            class="form-label"
+                        >
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            class="form-input"
+                            placeholder="seu@email.com"
+                            autocomplete="email"
+                            spellcheck="false"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label
+                            for="password"
+                            class="form-label"
+                        >
+                            Senha
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-input password-input"
+                                placeholder="Digite sua senha"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                id="passwordToggle"
+                                class="password-toggle"
+                                aria-label="Mostrar senha"
+                                title="Mostrar senha"
+                            >
+                                ◉
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <button
+                        type="submit"
+                        id="loginButton"
+                        class="login-button"
+                    >
+                        Entrar
+                    </button>
+
+                </form>
+
+
+                <!-- FEEDBACK -->
+
+                <div
+                    id="loginMessage"
+                    class="login-message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+            </section>
+
+
+            <footer class="login-footer">
+                JNFlow • Gestão de eventos
+            </footer>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================
+         SUPABASE
+    ========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2"
+    ></script>
+
+    <script src="js/supabase.js?v=2"></script>
+    <script src="js/auth.js?v=2"></script>
+
+
+    <!-- =========================================
+         LOGIN CONTROLLER
+    ========================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            async () => {
+
+                const form =
+                    document.getElementById("loginForm");
+
+                const emailInput =
+                    document.getElementById("email");
+
+                const passwordInput =
+                    document.getElementById("password");
+
+                const passwordToggle =
+                    document.getElementById("passwordToggle");
+
+                const loginButton =
+                    document.getElementById("loginButton");
+
+                const loginMessage =
+                    document.getElementById("loginMessage");
+
+
+                /* =================================
+                   JNAUTH VALIDATION
+                ================================= */
+
+                if (
+                    typeof JNAuth === "undefined"
+                ) {
+
+                    console.error(
+                        "[JNFlow] JNAuth não foi carregado."
+                    );
+
+                    loginMessage.textContent =
+                        "Não foi possível carregar o sistema de autenticação.";
+
+                    loginMessage.className =
+                        "login-message error";
+
+                    return;
+                }
+
+
+                /* =================================
+                   EXISTING SESSION
+                ================================= */
+
+                const redirected =
+                    await JNAuth.redirectIfAuthenticated();
+
+                if (redirected) {
+                    return;
+                }
+
+
+                /* =================================
+                   PASSWORD VISIBILITY
+                ================================= */
+
+                passwordToggle.addEventListener(
+                    "click",
+                    () => {
+
+                        const showing =
+                            passwordInput.type === "text";
+
+                        passwordInput.type =
+                            showing
+                                ? "password"
+                                : "text";
+
+                        passwordToggle.setAttribute(
+                            "aria-label",
+                            showing
+                                ? "Mostrar senha"
+                                : "Ocultar senha"
+                        );
+
+                    }
+                );
+
+
+                /* =================================
+                   LOGIN
+                ================================= */
+
+                form.addEventListener(
+                    "submit",
+                    async (event) => {
+
+                        event.preventDefault();
+
+
+                        loginMessage.className =
+                            "login-message";
+
+                        loginMessage.textContent =
+                            "";
+
+
+                        const email =
+                            emailInput.value.trim();
+
+                        const password =
+                            passwordInput.value;
+
+
+                        /* VALIDATION */
+
+                        if (
+                            !email ||
+                            !password
+                        ) {
+
+                            loginMessage.textContent =
+                                "Informe seu e-mail e sua senha.";
+
+                            loginMessage.className =
+                                "login-message error";
+
+                            return;
+                        }
+
+
+                        /* LOADING */
+
+                        loginButton.disabled = true;
+
+                        loginButton.textContent =
+                            "Entrando...";
+
+
+                        try {
+
+                            const result =
+                                await JNAuth.login(
+                                    email,
+                                    password
+                                );
+
+
+                            /* ERROR */
+
+                            if (!result.success) {
+
+                                loginMessage.textContent =
+                                    result.error ||
+                                    "E-mail ou senha inválidos.";
+
+                                loginMessage.className =
+                                    "login-message error";
+
+                                return;
+                            }
+
+
+                            /* SUCCESS */
+
+                            loginMessage.textContent =
+                                "Acesso autorizado.";
+
+                            loginMessage.className =
+                                "login-message success";
+
+
+                            window.location.replace(
+                                "index.html"
+                            );
+
+                        }
+
+                        catch (error) {
+
+                            console.error(
+                                "[JNFlow Login]",
+                                error
+                            );
+
+                            loginMessage.textContent =
+                                "Não foi possível realizar o login.";
+
+                            loginMessage.className =
+                                "login-message error";
+
+                        }
+
+                        finally {
+
+                            loginButton.disabled = false;
+
+                            loginButton.textContent =
+                                "Entrar";
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

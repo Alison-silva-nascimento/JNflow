@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="auth-pending">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Coberturas | JNFlow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css?v=2">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css?v=4">
+
+    <style>
+
+        /* =========================================
+           RESUMO
+        ========================================== */
+
+        .coverage-summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    minmax(0, 1fr)
+                );
+
+            gap: 14px;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* =========================================
+           CARDS DE RESUMO
+        ========================================== */
+
+        .coverage-summary-card {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 18px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.18);
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(16, 16, 14, 0.98),
+                    rgba(8, 8, 7, 0.99)
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.16);
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .coverage-summary-card:hover {
+            transform:
+                translateY(-1px);
+
+            border-color:
+                rgba(212, 175, 55, 0.34);
+
+            box-shadow:
+                0 14px 34px
+                rgba(0, 0, 0, 0.22);
+        }
+
+        .coverage-summary-card span {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color:
+                var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+        .coverage-summary-card strong {
+            color:
+                var(--text-primary);
+
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           CARD PENDENTES
+        ========================================== */
+
+        .coverage-summary-card.highlight {
+            border-color:
+                rgba(212, 175, 55, 0.30);
+
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(212, 175, 55, 0.10),
+                    transparent 42%
+                ),
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.07),
+                    rgba(12, 12, 10, 0.98)
+                );
+        }
+
+        .coverage-summary-card.highlight span {
+            color:
+                #d4af37;
+        }
+
+
+        /* =========================================
+           PAINEL
+        ========================================== */
+
+        .coverage-panel {
+            border-color:
+                rgba(212, 175, 55, 0.18);
+        }
+
+
+        /* =========================================
+           TOOLBAR
+        ========================================== */
+
+        .coverage-toolbar {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                180px
+                220px;
+
+            gap: 12px;
+
+            margin-bottom: 18px;
+        }
+
+        .coverage-toolbar input,
+        .coverage-toolbar select {
+            min-height: 44px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.16);
+
+            background:
+                rgba(12, 12, 11, 0.92);
+
+            color:
+                var(--text-primary);
+        }
+
+        .coverage-toolbar input:hover,
+        .coverage-toolbar select:hover {
+            border-color:
+                rgba(212, 175, 55, 0.30);
+        }
+
+        .coverage-toolbar input:focus,
+        .coverage-toolbar select:focus {
+            border-color:
+                #d4af37;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(212, 175, 55, 0.08);
+        }
+
+
+        /* =========================================
+           LISTA
+        ========================================== */
+
+        .coverage-list {
+            display: grid;
+
+            gap: 12px;
+        }
+
+
+        /* =========================================
+           CARD COBERTURA
+        ========================================== */
+
+        .coverage-card {
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns:
+                72px
+                minmax(0, 1fr)
+                auto;
+
+            gap: 16px;
+
+            align-items: center;
+
+            overflow: hidden;
+
+            padding: 16px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.16);
+
+            border-radius:
+                15px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(16, 16, 15, 0.98),
+                    rgba(9, 9, 8, 0.99)
+                );
+
+            box-shadow:
+                0 8px 24px
+                rgba(0, 0, 0, 0.10);
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .coverage-card::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 14px;
+            bottom: 14px;
+
+            width: 2px;
+
+            border-radius:
+                0 4px 4px 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    transparent,
+                    rgba(212, 175, 55, 0.72),
+                    transparent
+                );
+
+            opacity: 0;
+
+            transition:
+                opacity 0.2s ease;
+        }
+
+        .coverage-card:hover {
+            border-color:
+                rgba(212, 175, 55, 0.36);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(22, 20, 14, 0.98),
+                    rgba(10, 10, 8, 0.99)
+                );
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(0, 0, 0, 0.18);
+        }
+
+        .coverage-card:hover::before {
+            opacity: 1;
+        }
+
+
+        /* =========================================
+           DATA
+        ========================================== */
+
+        .coverage-date {
+            width: 64px;
+            height: 64px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.28);
+
+            border-radius:
+                14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.14),
+                    rgba(154, 116, 28, 0.06)
+                );
+
+            box-shadow:
+                inset 0 0 18px
+                rgba(212, 175, 55, 0.025);
+        }
+
+        .coverage-date strong {
+            color:
+                #d4af37;
+
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .coverage-date span {
+            margin-top: 4px;
+
+            color:
+                #e7c75f;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        /* =========================================
+           CONTEÚDO
+        ========================================== */
+
+        .coverage-content {
+            min-width: 0;
+        }
+
+        .coverage-title-row {
+            display: flex;
+
+            flex-wrap: wrap;
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 7px;
+        }
+
+        .coverage-title {
+            color:
+                var(--text-primary);
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           TAG
+        ========================================== */
+
+        .coverage-tag {
+            padding:
+                4px 8px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.12);
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(212, 175, 55, 0.10);
+
+            color:
+                #e7c75f;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           META
+        ========================================== */
+
+        .coverage-meta {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            color:
+                var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           TIPO
+        ========================================== */
+
+        .coverage-type {
+            margin-top: 8px;
+
+            display: inline-flex;
+
+            max-width: 100%;
+
+            padding:
+                5px 8px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.12);
+
+            border-radius:
+                8px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(212, 175, 55, 0.09),
+                    rgba(154, 116, 28, 0.05)
+                );
+
+            color:
+                #e2c45a;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           AÇÕES
+        ========================================== */
+
+        .coverage-actions {
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: flex-end;
+
+            gap: 8px;
+        }
+
+        .coverage-action-buttons {
+            display: flex;
+
+            gap: 7px;
+        }
+
+        .coverage-action-btn {
+            min-height: 36px;
+
+            padding:
+                0 11px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.18);
+
+            border-radius:
+                9px;
+
+            background:
+                rgba(18, 18, 16, 0.95);
+
+            color:
+                var(--text-primary);
+
+            font-size: 10px;
+            font-weight: 700;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .coverage-action-btn:hover {
+            border-color:
+                rgba(212, 175, 55, 0.42);
+
+            background:
+                rgba(212, 175, 55, 0.08);
+
+            color:
+                #e7c75f;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =========================================
+           CONCLUIR
+        ========================================== */
+
+        .coverage-action-btn.complete {
+            border-color:
+                rgba(74, 222, 128, 0.16);
+
+            background:
+                rgba(74, 222, 128, 0.08);
+
+            color:
+                #86efac;
+        }
+
+        .coverage-action-btn.complete:hover {
+            border-color:
+                rgba(74, 222, 128, 0.32);
+
+            background:
+                rgba(74, 222, 128, 0.13);
+
+            color:
+                #bbf7d0;
+        }
+
+
+        /* =========================================
+           EXCLUIR
+        ========================================== */
+
+        .coverage-action-btn.delete {
+            border-color:
+                rgba(251, 113, 133, 0.18);
+
+            background:
+                rgba(251, 113, 133, 0.08);
+
+            color:
+                #fb7185;
+        }
+
+        .coverage-action-btn.delete:hover {
+            border-color:
+                rgba(251, 113, 133, 0.40);
+
+            background:
+                rgba(251, 113, 133, 0.13);
+
+            color:
+                #fda4af;
+        }
+
+
+        /* =========================================
+           LIGHT MODE
+        ========================================== */
+
+        [data-theme="light"]
+        .coverage-summary-card {
+            background:
+                #ffffff;
+
+            border-color:
+                rgba(154, 116, 28, 0.14);
+        }
+
+        [data-theme="light"]
+        .coverage-summary-card.highlight {
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(212, 175, 55, 0.10),
+                    transparent 42%
+                ),
+                #fffdf8;
+        }
+
+        [data-theme="light"]
+        .coverage-toolbar input,
+
+        [data-theme="light"]
+        .coverage-toolbar select {
+            background:
+                #ffffff;
+
+            color:
+                #171717;
+        }
+
+        [data-theme="light"]
+        .coverage-card {
+            background:
+                #ffffff;
+
+            border-color:
+                rgba(154, 116, 28, 0.14);
+        }
+
+        [data-theme="light"]
+        .coverage-card:hover {
+            background:
+                #fffdf8;
+
+            border-color:
+                rgba(154, 116, 28, 0.28);
+        }
+
+        [data-theme="light"]
+        .coverage-date {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.12),
+                    rgba(154, 116, 28, 0.04)
+                );
+        }
+
+        [data-theme="light"]
+        .coverage-type {
+            background:
+                #faf6eb;
+
+            color:
+                #8c6716;
+        }
+
+
+        /* =========================================
+           TABLET
+        ========================================== */
+
+        @media (max-width: 900px) {
+
+            .coverage-summary-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .coverage-toolbar {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .coverage-card {
+                grid-template-columns:
+                    64px
+                    1fr;
+            }
+
+            .coverage-actions {
+                grid-column:
+                    2;
+
+                align-items:
+                    flex-start;
+            }
+        }
+
+
+        /* =========================================
+           MOBILE
+           SOMENTE MOBILE
+        ========================================== */
+
+        @media (max-width: 768px) {
+
+
+            /* HEADER */
+
+            .coverage-page-header
+            .topbar-actions {
+                display: none;
+            }
+
+
+            /* =====================================
+               RESUMO
+            ===================================== */
+
+            .coverage-summary-grid {
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 9px;
+
+                margin-bottom:
+                    14px;
+            }
+
+
+            .coverage-summary-card {
+                min-height:
+                    82px;
+
+                padding:
+                    12px;
+
+                border-radius:
+                    13px;
+            }
+
+
+            .coverage-summary-card:hover {
+                transform:
+                    none;
+            }
+
+
+            .coverage-summary-card span {
+                margin-bottom:
+                    5px;
+
+                font-size:
+                    8px;
+
+                line-height:
+                    1.35;
+            }
+
+
+            .coverage-summary-card strong {
+                font-size:
+                    22px;
+            }
+
+
+            /* =====================================
+               COBERTURAS CADASTRADAS
+               Card mais compacto
+            ===================================== */
+
+            .coverage-summary-card:first-child {
+                grid-column:
+                    1 / -1;
+
+                min-height:
+                    70px;
+
+                padding:
+                    11px 12px;
+            }
+
+
+            .coverage-summary-card:first-child span {
+                margin-bottom:
+                    4px;
+            }
+
+
+            .coverage-summary-card:first-child strong {
+                font-size:
+                    21px;
+            }
+
+
+            /* PENDENTES */
+
+            .coverage-summary-card.highlight {
+                min-height:
+                    78px;
+            }
+
+
+            /* CONCLUÍDAS */
+
+            .coverage-summary-card:nth-child(3) {
+                min-height:
+                    78px;
+            }
+
+
+            /* =====================================
+               PAINEL
+            ===================================== */
+
+            .coverage-panel {
+                padding:
+                    13px 12px 12px;
+
+                border-radius:
+                    15px;
+            }
+
+
+            /* =====================================
+               TOOLBAR
+            ===================================== */
+
+            .coverage-toolbar {
+                display:
+                    grid;
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    9px;
+
+                margin-bottom:
+                    16px;
+            }
+
+
+            .coverage-toolbar input,
+            .coverage-toolbar select {
+                width:
+                    100%;
+
+                min-height:
+                    44px;
+
+                padding:
+                    0 12px;
+
+                border-radius:
+                    10px;
+
+                font-size:
+                    12px;
+            }
+
+
+            /* =====================================
+               LISTA
+               Mais espaço após os filtros
+            ===================================== */
+
+            .coverage-list {
+                gap:
+                    10px;
+
+                padding-top:
+                    2px;
+            }
+
+
+            /* =====================================
+               CARD MOBILE
+            ===================================== */
+
+            .coverage-card {
+                grid-template-columns:
+                    56px
+                    minmax(0, 1fr);
+
+                gap:
+                    11px;
+
+                align-items:
+                    start;
+
+                padding:
+                    13px;
+
+                border-radius:
+                    14px;
+
+                transform:
+                    none !important;
+            }
+
+
+            .coverage-card:hover {
+                transform:
+                    none;
+
+                box-shadow:
+                    0 8px 24px
+                    rgba(0, 0, 0, 0.10);
+            }
+
+
+            .coverage-card::before {
+                top:
+                    12px;
+
+                bottom:
+                    12px;
+
+                opacity:
+                    0.5;
+            }
+
+
+            /* =====================================
+               DATA
+            ===================================== */
+
+            .coverage-date {
+                width:
+                    54px;
+
+                height:
+                    56px;
+
+                border-radius:
+                    12px;
+            }
+
+
+            .coverage-date strong {
+                font-size:
+                    19px;
+            }
+
+
+            .coverage-date span {
+                font-size:
+                    7.5px;
+            }
+
+
+            /* =====================================
+               CONTEÚDO
+            ===================================== */
+
+            .coverage-content {
+                min-width:
+                    0;
+
+                padding-top:
+                    2px;
+            }
+
+
+            .coverage-title-row {
+                gap:
+                    6px;
+
+                margin-bottom:
+                    6px;
+            }
+
+
+            .coverage-title {
+                font-size:
+                    13px;
+
+                line-height:
+                    1.25;
+            }
+
+
+            /* =====================================
+               TAG
+            ===================================== */
+
+            .coverage-tag {
+                padding:
+                    3px
+                    6px;
+
+                font-size:
+                    7px;
+            }
+
+
+            /* =====================================
+               META
+            ===================================== */
+
+            .coverage-meta {
+                gap:
+                    5px
+                    8px;
+
+                font-size:
+                    8.5px;
+
+                line-height:
+                    1.4;
+            }
+
+
+            /* =====================================
+               TIPO
+            ===================================== */
+
+            .coverage-type {
+                max-width:
+                    100%;
+
+                margin-top:
+                    6px;
+
+                padding:
+                    4px
+                    7px;
+
+                overflow:
+                    hidden;
+
+                font-size:
+                    8px;
+
+                text-overflow:
+                    ellipsis;
+
+                white-space:
+                    nowrap;
+            }
+
+
+            /* =====================================
+               AÇÕES
+            ===================================== */
+
+            .coverage-actions {
+                grid-column:
+                    1 / -1;
+
+                width:
+                    100%;
+
+                display:
+                    grid;
+
+                gap:
+                    7px;
+
+                align-items:
+                    stretch;
+
+                margin-top:
+                    2px;
+            }
+
+
+            .coverage-actions
+            .status,
+
+            .coverage-actions
+            .status-badge {
+                width:
+                    100%;
+
+                text-align:
+                    center;
+
+                font-size:
+                    8px;
+            }
+
+
+            .coverage-action-buttons {
+                width:
+                    100%;
+
+                display:
+                    grid;
+
+                grid-template-columns:
+                    repeat(
+                        3,
+                        minmax(0, 1fr)
+                    );
+
+                gap:
+                    7px;
+            }
+
+
+            .coverage-action-btn {
+                width:
+                    100%;
+
+                min-width:
+                    0;
+
+                min-height:
+                    40px;
+
+                padding:
+                    0 5px;
+
+                display:
+                    flex;
+
+                align-items:
+                    center;
+
+                justify-content:
+                    center;
+
+                border-radius:
+                    9px;
+
+                font-size:
+                    8.5px;
+
+                white-space:
+                    nowrap;
+            }
+
+
+            .coverage-action-btn:active {
+                transform:
+                    scale(0.97);
+            }
+
+
+            /* =====================================
+               EDITAR
+               Destaque dourado
+            ===================================== */
+
+            .coverage-action-btn:not(.complete):not(.delete) {
+                border-color:
+                    rgba(212, 175, 55, 0.34);
+
+                background:
+                    linear-gradient(
+                        90deg,
+                        rgba(154, 116, 28, 0.16),
+                        rgba(212, 175, 55, 0.10)
+                    );
+
+                color:
+                    #f0d77a;
+
+                font-weight:
+                    800;
+
+                box-shadow:
+                    inset 0 0 0 1px
+                    rgba(212, 175, 55, 0.025);
+            }
+
+
+            .coverage-action-btn:not(.complete):not(.delete):active {
+                background:
+                    rgba(212, 175, 55, 0.16);
+            }
+        }
+
+
+        /* =========================================
+           IPHONE
+        ========================================== */
+
+        @media (max-width: 430px) {
+
+            .coverage-summary-card {
+                padding:
+                    11px;
+            }
+
+
+            .coverage-summary-card strong {
+                font-size:
+                    20px;
+            }
+
+
+            .coverage-summary-card:first-child {
+                min-height:
+                    68px;
+            }
+
+
+            .coverage-panel {
+                padding:
+                    12px 11px;
+            }
+
+
+            .coverage-toolbar {
+                margin-bottom:
+                    15px;
+            }
+
+
+            .coverage-card {
+                grid-template-columns:
+                    52px
+                    minmax(0, 1fr);
+
+                gap:
+                    9px;
+
+                padding:
+                    12px;
+            }
+
+
+            .coverage-date {
+                width:
+                    50px;
+
+                height:
+                    53px;
+            }
+
+
+            .coverage-title {
+                font-size:
+                    12.5px;
+            }
+
+
+            .coverage-action-btn {
+                min-height:
+                    38px;
+
+                font-size:
+                    8px;
+            }
+        }
+
+
+        /* =========================================
+           TELAS MUITO PEQUENAS
+        ========================================== */
+
+        @media (max-width: 360px) {
+
+            .coverage-summary-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .coverage-summary-card:first-child {
+                grid-column:
+                    auto;
+            }
+
+
+            .coverage-action-buttons {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .coverage-action-btn {
+                min-height:
+                    42px;
+            }
+        }
+
+</style>
+
+<link rel="stylesheet" href="../css/light.css?v=2">
+<link rel="stylesheet" href="../css/polish.css?v=1">
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+
+        <!-- MOBILE SIDEBAR HEADER -->
+
+        <div class="mobile-sidebar-header">
+
+            <span>
+                MENU
+            </span>
+
+
+            <button
+                type="button"
+                class="mobile-sidebar-close"
+                id="mobileSidebarClose"
+                aria-label="Fechar menu"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+              <div class="brand-logo">
+        <img
+            src="../assets/images/JNlogo.png"
+            alt="JN"
+            class="brand-logo-image"
+        >
+    </div>
+
+
+
+            <div class="brand-info">
+
+                <h2>
+                    JNFLOW
+                </h2>
+
+                <span>
+                    Eventos & Organização
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <nav class="menu">
+
+            <a
+                href="../index.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    ⌂
+                </span>
+
+                Dashboard
+            </a>
+
+
+            <a
+                href="calendario.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                Calendário
+            </a>
+
+
+            <a
+                href="atividades.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    ✓
+                </span>
+
+                Atividades
+            </a>
+
+
+            <a
+                href="aniversarios.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    🎂
+                </span>
+
+                Aniversários
+            </a>
+
+
+            <a
+                href="coberturas.html"
+                class="menu-item active"
+            >
+                <span class="menu-icon">
+                    📷
+                </span>
+
+                Coberturas
+            </a>
+
+            <a href="financeiro.html" class="menu-item">
+                <span class="menu-icon">$</span>
+                Financeiro
+            </a>
+
+        </nav>
+
+
+        <!-- TEMA -->
+
+        <div class="sidebar-footer">
+
+            <button
+                type="button"
+                id="themeToggle"
+                class="theme-toggle"
+            >
+
+                <span id="themeIcon">
+                    ☀
+                </span>
+
+
+                <span id="themeText">
+                    Modo claro
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         OVERLAY SIDEBAR MOBILE
+    ========================================== -->
+
+    <div
+        class="mobile-sidebar-overlay"
+        id="mobileSidebarOverlay"
+        aria-hidden="true"
+    ></div>
+
+
+
+    <!-- =========================================
+         CONTEÚDO
+    ========================================== -->
+
+    <main class="content">
+
+
+        <!-- =====================================
+             MOBILE TOPBAR
+        ====================================== -->
+
+        <div class="mobile-topbar">
+
+            <div class="mobile-brand">
+
+                <div class="mobile-brand-logo">
+                 
+                    <img
+                        src="../assets/images/JNlogo.png"
+                        alt="JN"
+                        class="mobile-brand-logo-image"
+                    >
+                </div>
+
+                <div class="mobile-brand-text">
+
+                    <strong>
+                        JNFLOW
+                    </strong>
+
+                    <span>
+                        Eventos & Organização
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Abrir menu"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================
+             HEADER
+        ====================================== -->
+
+        <header class="topbar coverage-page-header">
+
+            <div class="topbar-title">
+
+                <h1>
+                    Coberturas
+                </h1>
+
+
+                <p>
+                    Organize as próximas produções,
+                    fotos, vídeos e conteúdos.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <a
+                    href="../index.html"
+                    class="btn-secondary"
+                >
+                    ← Dashboard
+                </a>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================
+             RESUMO
+        ====================================== -->
+
+        <section class="coverage-summary-grid">
+
+
+            <article class="coverage-summary-card">
+
+                <span>
+                    Coberturas cadastradas
+                </span>
+
+
+                <strong id="coverageTotal">
+                    0
+                </strong>
+
+            </article>
+
+
+
+            <article class="coverage-summary-card highlight">
+
+                <span>
+                    Pendentes
+                </span>
+
+
+                <strong id="coveragePending">
+                    0
+                </strong>
+
+            </article>
+
+
+
+            <article class="coverage-summary-card">
+
+                <span>
+                    Concluídas
+                </span>
+
+
+                <strong id="coverageCompleted">
+                    0
+                </strong>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- =====================================
+             PAINEL
+        ====================================== -->
+
+        <section class="panel coverage-panel">
+
+
+            <!-- TOOLBAR -->
+
+            <div class="coverage-toolbar">
+
+                <input
+                    type="search"
+                    id="coverageSearch"
+                    placeholder="Buscar cobertura, local, responsável..."
+                    autocomplete="off"
+                >
+
+
+                <select id="coverageStatusFilter">
+
+                    <option value="all">
+                        Todos os status
+                    </option>
+
+                    <option value="Pendente">
+                        Pendente
+                    </option>
+
+                    <option value="Confirmado">
+                        Confirmado
+                    </option>
+
+                    <option value="Concluído">
+                        Concluído
+                    </option>
+
+                    <option value="Cancelado">
+                        Cancelado
+                    </option>
+
+                </select>
+
+
+                <select id="coverageTypeFilter">
+
+                    <option value="all">
+                        Todos os tipos
+                    </option>
+
+                    <option value="Fotografia">
+                        Fotografia
+                    </option>
+
+                    <option value="Vídeo">
+                        Vídeo
+                    </option>
+
+                    <option value="Foto + Vídeo">
+                        Foto + Vídeo
+                    </option>
+
+                    <option value="Stories / Redes sociais">
+                        Stories / Redes sociais
+                    </option>
+
+                    <option value="Cobertura completa">
+                        Cobertura completa
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- LISTA -->
+
+            <div
+                class="coverage-list"
+                id="coverageList"
+            ></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2"></script>
+<script src="../js/supabase.js?v=2"></script>
+<script src="../js/auth.js?v=2"></script>
+<script
+    type="module"
+    src="../js/private-app.js?v=1"
+    data-private-app
+    data-base="../js/"
+    data-scripts="theme.js,sidebar.js?v=3,navigation.js,data-service.js?v=2,events.js?v=2,ui.js,coverages.js?v=2"
+></script>
+
+</body>
+
+</html>

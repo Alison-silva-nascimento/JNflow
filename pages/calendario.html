@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="auth-pending">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Calendário JNFlow - Organização de eventos, aniversários e coberturas."
+    >
+
+    <title>Calendário | JNFlow</title>
+
+
+    <!-- GOOGLE FONTS -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS GLOBAL -->
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css?v=2">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css?v=4">
+
+
+    <style>
+
+        /* =========================================================
+           JNFLOW — CALENDÁRIO
+           BLACK & GOLD
+        ========================================================= */
+
+        .content {
+            max-width: none;
+        }
+
+        .calendar-shell {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .calendar-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                330px;
+
+            gap: 18px;
+
+            align-items: start;
+        }
+
+        .calendar-main {
+            min-width: 0;
+        }
+
+
+        /* =========================================================
+           TOOLBAR
+        ========================================================= */
+
+        .calendar-toolbar {
+            display: grid;
+
+            grid-template-columns:
+                auto
+                minmax(240px, 1fr)
+                auto;
+
+            align-items: center;
+
+            gap: 18px;
+
+            margin-bottom: 18px;
+        }
+
+        .calendar-navigation {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        /* =========================================================
+           NAVEGAÇÃO
+        ========================================================= */
+
+        .calendar-nav-btn {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.30);
+
+            border-radius: 11px;
+
+            background:
+                rgba(14, 14, 14, 0.94);
+
+            color:
+                var(--primary);
+
+            font-size: 17px;
+            font-weight: 800;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .calendar-nav-btn:hover {
+            transform:
+                translateY(-1px);
+
+            border-color:
+                var(--primary);
+
+            background:
+                rgba(212, 175, 55, 0.07);
+
+            box-shadow:
+                0 0 18px
+                rgba(212, 175, 55, 0.12);
+        }
+
+
+        /* =========================================================
+           HOJE
+        ========================================================= */
+
+        .calendar-today-btn {
+            min-height: 42px;
+
+            padding:
+                0
+                18px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.34);
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #9a741c,
+                    #d4af37,
+                    #e4c552
+                );
+
+            color:
+                #090909;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 8px 24px
+                rgba(212, 175, 55, 0.18);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+        }
+
+        .calendar-today-btn:hover {
+            transform:
+                translateY(-1px);
+
+            filter:
+                brightness(1.06);
+
+            box-shadow:
+                0 12px 28px
+                rgba(212, 175, 55, 0.26);
+        }
+
+
+        /* =========================================================
+           TÍTULO DO MÊS
+        ========================================================= */
+
+        .calendar-title {
+            position: relative;
+
+            justify-self: center;
+
+            padding-bottom: 10px;
+
+            color:
+                var(--text-primary);
+
+            font-size: 22px;
+            font-weight: 800;
+
+            letter-spacing:
+                -0.035em;
+
+            text-transform:
+                capitalize;
+        }
+
+        .calendar-title::after {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            bottom: 0;
+
+            width: 145px;
+            height: 3px;
+
+            transform:
+                translateX(-50%);
+
+            border-radius: 999px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #9a741c,
+                    #d4af37,
+                    #f0d77a
+                );
+
+            box-shadow:
+                0 0 16px
+                rgba(212, 175, 55, 0.18);
+        }
+
+
+        /* =========================================================
+           FILTRO
+        ========================================================= */
+
+        .calendar-filter-wrap {
+            display: flex;
+
+            justify-content: flex-end;
+        }
+
+        .calendar-filter {
+            width: 220px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.16);
+
+            background:
+                rgba(15, 15, 15, 0.92);
+
+            color:
+                var(--text-primary);
+        }
+
+        .calendar-filter:hover {
+            border-color:
+                rgba(212, 175, 55, 0.30);
+        }
+
+        .calendar-filter:focus {
+            border-color:
+                var(--primary);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(212, 175, 55, 0.08);
+        }
+
+
+        /* =========================================================
+           PAINEL DO CALENDÁRIO
+        ========================================================= */
+
+        .calendar-panel {
+            padding: 0;
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.14);
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(16, 16, 16, 0.98),
+                    rgba(8, 8, 8, 0.99)
+                );
+
+            box-shadow:
+                0 18px 44px
+                rgba(0, 0, 0, 0.20);
+        }
+
+
+        /* =========================================================
+           DIAS DA SEMANA
+        ========================================================= */
+
+        .calendar-weekdays {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    7,
+                    minmax(0, 1fr)
+                );
+
+            border-bottom:
+                1px solid
+                rgba(212, 175, 55, 0.12);
+
+            background:
+                rgba(17, 17, 17, 0.96);
+        }
+
+        .calendar-weekdays span {
+            padding:
+                13px
+                8px;
+
+            color:
+                #c9c3b5;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-align: center;
+
+            letter-spacing:
+                0.08em;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        /* =========================================================
+           GRID
+        ========================================================= */
+
+        .calendar-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    7,
+                    minmax(0, 1fr)
+                );
+        }
+
+        .calendar-day {
+            position: relative;
+
+            min-width: 0;
+            min-height: 105px;
+
+            padding: 9px;
+
+            border-right:
+                1px solid
+                rgba(212, 175, 55, 0.07);
+
+            border-bottom:
+                1px solid
+                rgba(212, 175, 55, 0.07);
+
+            background:
+                rgba(10, 10, 10, 0.88);
+
+            transition:
+                background 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        .calendar-day:nth-child(7n) {
+            border-right: none;
+        }
+
+        .calendar-day:hover {
+            background:
+                rgba(22, 19, 13, 0.98);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.26;
+        }
+
+        .calendar-day.has-events {
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(21, 18, 12, 0.98),
+                    rgba(11, 10, 8, 0.99)
+                );
+        }
+
+        .calendar-day.today {
+            box-shadow:
+                inset 0 0 0 1px
+                rgba(212, 175, 55, 0.62);
+        }
+
+
+        /* =========================================================
+           NÚMERO DO DIA
+        ========================================================= */
+
+        .calendar-day-number-row {
+            display: flex;
+
+            justify-content: flex-end;
+
+            margin-bottom: 7px;
+        }
+
+        .calendar-day-number {
+            position: relative;
+
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            color:
+                #d5d1c8;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        .calendar-day.event-day
+        .calendar-day-number {
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.70);
+
+            color:
+                #f0d77a;
+        }
+
+
+        .calendar-day.birthday-day
+        .calendar-day-number {
+            border:
+                1px solid
+                #d4af37;
+
+            color:
+                #f0d77a;
+        }
+
+
+        .calendar-day.coverage-day
+        .calendar-day-number {
+            border:
+                1px solid
+                rgba(168, 85, 247, 0.72);
+
+            color:
+                #d8b4fe;
+        }
+
+
+        .calendar-day.film-day
+        .calendar-day-number {
+            border:
+                1px solid
+                rgba(244, 63, 94, 0.70);
+
+            color:
+                #fda4af;
+        }
+
+
+        .calendar-day.campaign-day
+        .calendar-day-number {
+            border:
+                1px solid
+                rgba(74, 222, 128, 0.68);
+
+            color:
+                #86efac;
+        }
+
+
+        .calendar-day.institutional-day
+        .calendar-day-number {
+            border:
+                1px solid
+                rgba(96, 165, 250, 0.68);
+
+            color:
+                #93c5fd;
+        }
+
+
+        /* =========================================================
+           HOJE
+        ========================================================= */
+
+        .calendar-day.today
+        .calendar-day-number {
+            width: 44px;
+            height: 44px;
+
+            border:
+                1px solid
+                var(--primary);
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(212, 175, 55, 0.27),
+                    rgba(154, 116, 28, 0.10)
+                );
+
+            color:
+                #ffffff;
+
+            box-shadow:
+                0 0 22px
+                rgba(212, 175, 55, 0.34);
+        }
+
+        .calendar-day.has-events
+        .calendar-day-number::after {
+            content: "";
+
+            position: absolute;
+
+            bottom: 4px;
+
+            width: 4px;
+            height: 4px;
+
+            border-radius: 50%;
+
+            background:
+                currentColor;
+        }
+
+
+        /* =========================================================
+           EVENTOS
+        ========================================================= */
+
+        .calendar-events {
+            min-width: 0;
+
+            display: grid;
+
+            gap: 6px;
+        }
+
+        .calendar-event {
+            width: 100%;
+            min-width: 0;
+
+            overflow: hidden;
+
+            padding:
+                8px
+                9px;
+
+            border:
+                1px solid
+                transparent;
+
+            border-radius: 9px;
+
+            text-align: left;
+
+            transition:
+                transform 0.18s ease,
+                filter 0.18s ease;
+        }
+
+        .calendar-event:hover {
+            transform:
+                translateY(-1px);
+
+            filter:
+                brightness(1.10);
+        }
+
+        .calendar-event-time {
+            display: block;
+
+            margin-bottom: 2px;
+
+            overflow: hidden;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-overflow:
+                ellipsis;
+
+            white-space:
+                nowrap;
+
+            text-transform:
+                uppercase;
+        }
+
+        .calendar-event-title {
+            display: block;
+
+            overflow: hidden;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-overflow:
+                ellipsis;
+
+            white-space:
+                nowrap;
+        }
+
+
+        /* =========================================================
+           CORES DAS CATEGORIAS
+        ========================================================= */
+
+        .calendar-event.evento {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.18),
+                    rgba(154, 116, 28, 0.12)
+                );
+
+            border-color:
+                rgba(212, 175, 55, 0.22);
+
+            color:
+                #f0d77a;
+        }
+
+        .calendar-event.aniversario {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.23),
+                    rgba(118, 86, 16, 0.18)
+                );
+
+            border-color:
+                rgba(212, 175, 55, 0.28);
+
+            color:
+                #ffe69a;
+        }
+
+        .calendar-event.cobertura {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(126, 34, 206, 0.26),
+                    rgba(168, 85, 247, 0.15)
+                );
+
+            border-color:
+                rgba(168, 85, 247, 0.22);
+
+            color:
+                #e9d5ff;
+        }
+
+        .calendar-event.filmagem {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(190, 24, 93, 0.24),
+                    rgba(244, 63, 94, 0.15)
+                );
+
+            border-color:
+                rgba(244, 63, 94, 0.22);
+
+            color:
+                #fecdd3;
+        }
+
+        .calendar-event.campanha {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(21, 128, 61, 0.24),
+                    rgba(74, 222, 128, 0.14)
+                );
+
+            border-color:
+                rgba(74, 222, 128, 0.20);
+
+            color:
+                #bbf7d0;
+        }
+
+        .calendar-event.institucional {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(30, 64, 175, 0.23),
+                    rgba(59, 130, 246, 0.14)
+                );
+
+            border-color:
+                rgba(59, 130, 246, 0.20);
+
+            color:
+                #bfdbfe;
+        }
+
+        .calendar-event.outro {
+            background:
+                rgba(148, 163, 184, 0.10);
+
+            border-color:
+                rgba(148, 163, 184, 0.16);
+
+            color:
+                #cbd5e1;
+        }
+
+        .calendar-event.done {
+            opacity: 0.68;
+        }
+
+        .calendar-event.cancelled {
+            opacity: 0.42;
+
+            text-decoration:
+                line-through;
+        }
+
+
+        /* =========================================================
+           LEGENDA
+        ========================================================= */
+
+        .calendar-legend {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+            gap: 16px;
+
+            padding:
+                15px
+                4px
+                0;
+        }
+
+        .legend-item {
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color:
+                var(--text-secondary);
+
+            font-size: 10px;
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+        .legend-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+        }
+
+        .legend-evento {
+            background: #d4af37;
+        }
+
+        .legend-aniversario {
+            background: #f0d77a;
+        }
+
+        .legend-cobertura {
+            background: #a855f7;
+        }
+
+        .legend-filmagem {
+            background: #f43f5e;
+        }
+
+        .legend-campanha {
+            background: #4ade80;
+        }
+
+        .legend-institucional {
+            background: #3b82f6;
+        }
+
+        .legend-outro {
+            background: #94a3b8;
+        }
+
+
+        /* =========================================================
+           DICA
+        ========================================================= */
+
+        .calendar-tip {
+            margin-top: 14px;
+
+            padding:
+                14px
+                16px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.15);
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(212, 175, 55, 0.06),
+                    rgba(154, 116, 28, 0.025)
+                );
+
+            color:
+                var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+        .calendar-tip-icon {
+            width: 28px;
+            height: 28px;
+
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #9a741c,
+                    #d4af37
+                );
+
+            color:
+                #080808;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .calendar-tip strong {
+            color:
+                var(--text-primary);
+        }
+
+
+        /* =========================================================
+           PAINEL DESKTOP
+        ========================================================= */
+
+        .event-detail-panel {
+            position: sticky;
+
+            top: 20px;
+
+            min-height: 570px;
+
+            padding: 20px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.16);
+
+            border-radius: 18px;
+
+            background:
+                radial-gradient(
+                    circle at 100% 0%,
+                    rgba(212, 175, 55, 0.05),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    180deg,
+                    rgba(17, 17, 17, 0.99),
+                    rgba(8, 8, 8, 0.99)
+                );
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.38);
+        }
+
+        .event-detail-empty {
+            min-height: 520px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            color:
+                var(--text-secondary);
+        }
+
+        .event-detail-empty .icon {
+            width: 58px;
+            height: 58px;
+
+            margin-bottom: 12px;
+
+            display: grid;
+            place-items: center;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.22);
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.15),
+                    rgba(154, 116, 28, 0.10)
+                );
+
+            color:
+                var(--primary);
+
+            font-size: 24px;
+        }
+
+        .event-detail-empty strong {
+            margin-bottom: 6px;
+
+            color:
+                var(--text-primary);
+        }
+
+
+        /* =========================================================
+           DETALHES COMPARTILHADOS
+        ========================================================= */
+
+        .event-detail-header {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                flex-start;
+
+            gap: 12px;
+
+            margin-bottom: 14px;
+        }
+
+        .event-detail-category-wrap {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .event-detail-category-icon {
+            width: 44px;
+            height: 44px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.17);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.17),
+                    rgba(154, 116, 28, 0.10)
+                );
+
+            color:
+                #ffffff;
+
+            font-size: 20px;
+        }
+
+        .event-detail-category {
+            color:
+                var(--primary);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing:
+                0.09em;
+
+            text-transform:
+                uppercase;
+        }
+
+        .event-detail-close {
+            width: 36px;
+            height: 36px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 9px;
+
+            background:
+                rgba(18, 18, 18, 0.94);
+
+            color:
+                var(--text-primary);
+        }
+
+        .event-detail-title {
+            margin:
+                18px
+                0
+                10px;
+
+            color:
+                #ffffff;
+
+            font-size: 24px;
+            font-weight: 800;
+
+            letter-spacing:
+                -0.04em;
+        }
+
+        .detail-status {
+            margin-bottom: 18px;
+        }
+
+        .detail-list {
+            display: grid;
+
+            gap: 14px;
+
+            padding-top: 18px;
+
+            border-top:
+                1px solid
+                rgba(212, 175, 55, 0.11);
+        }
+
+        .detail-row {
+            display: grid;
+
+            grid-template-columns:
+                22px
+                1fr;
+
+            gap: 10px;
+        }
+
+        .detail-row-icon {
+            color:
+                var(--primary);
+        }
+
+        .detail-row span {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color:
+                var(--text-secondary);
+
+            font-size: 10px;
+        }
+
+        .detail-row strong {
+            color:
+                var(--text-primary);
+
+            font-size: 12px;
+
+            line-height: 1.45;
+        }
+
+        .detail-actions {
+            display: grid;
+
+            gap: 8px;
+
+            margin-top: 22px;
+        }
+
+        .detail-action-row {
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1.35fr;
+
+            gap: 8px;
+        }
+
+        .detail-danger {
+            width: 100%;
+
+            padding:
+                11px
+                14px;
+
+            border:
+                1px solid
+                rgba(251, 113, 133, 0.25);
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(190, 18, 60, 0.86),
+                    rgba(244, 63, 94, 0.88)
+                );
+
+            color:
+                #ffffff;
+
+            font-weight: 800;
+        }
+
+
+        /* =========================================================
+           MODAL DE DETALHES MOBILE
+           INVISÍVEL NO DESKTOP
+        ========================================================= */
+
+        .mobile-event-modal {
+            display: none;
+        }
+
+
+        /* =========================================================
+           LIGHT
+        ========================================================= */
+
+        [data-theme="light"] .calendar-panel {
+            background:
+                #ffffff;
+
+            border-color:
+                rgba(154, 116, 28, 0.16);
+        }
+
+        [data-theme="light"] .calendar-weekdays {
+            background:
+                #f7f3ea;
+        }
+
+        [data-theme="light"] .calendar-weekdays span {
+            color:
+                #5f5749;
+        }
+
+        [data-theme="light"] .calendar-day {
+            background:
+                #ffffff;
+
+            border-color:
+                rgba(154, 116, 28, 0.10);
+        }
+
+        [data-theme="light"] .calendar-day-number {
+            color:
+                #29251d;
+        }
+
+        [data-theme="light"] .calendar-title {
+            color:
+                #171717;
+        }
+
+        [data-theme="light"] .calendar-filter {
+            background:
+                #ffffff;
+
+            color:
+                #171717;
+        }
+
+        [data-theme="light"] .event-detail-panel {
+            background:
+                #ffffff;
+        }
+
+        [data-theme="light"] .event-detail-title {
+            color:
+                #171717;
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @media (max-width: 1180px) {
+
+            .calendar-layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .event-detail-panel {
+                position: static;
+
+                min-height: auto;
+            }
+
+            .event-detail-empty {
+                min-height: 180px;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 768px) {
+
+            .calendar-shell,
+            .calendar-main {
+                width: 100%;
+
+                min-width: 0;
+            }
+
+            .calendar-layout {
+                display: block;
+            }
+
+
+            /* =====================================================
+               DESLIGA PAINEL LATERAL SOMENTE MOBILE
+            ===================================================== */
+
+            .event-detail-panel {
+                display: none !important;
+            }
+
+
+            /* TOOLBAR */
+
+            .calendar-toolbar {
+                display: grid;
+
+                grid-template-columns:
+                    minmax(0, 1fr);
+
+                gap: 14px;
+
+                margin-bottom: 14px;
+            }
+
+            .calendar-title {
+                order: -1;
+
+                justify-self: center;
+
+                font-size: 20px;
+            }
+
+            .calendar-title::after {
+                width: 120px;
+            }
+
+
+            /* NAVEGAÇÃO */
+
+            .calendar-navigation {
+                width: 100%;
+
+                display: grid;
+
+                grid-template-columns:
+                    42px
+                    minmax(0, 1fr)
+                    42px;
+
+                gap: 9px;
+            }
+
+            .calendar-today-btn {
+                width: 100%;
+            }
+
+
+            /* FILTRO */
+
+            .calendar-filter-wrap,
+            .calendar-filter {
+                width: 100%;
+            }
+
+
+            /* GRID */
+
+            .calendar-panel {
+                width: 100%;
+
+                overflow: hidden;
+            }
+
+            .calendar-weekdays span {
+                padding:
+                    10px
+                    1px;
+
+                font-size: 7px;
+
+                letter-spacing: 0;
+            }
+
+            .calendar-day {
+                min-width: 0;
+
+                min-height: 82px;
+
+                padding:
+                    5px
+                    3px;
+            }
+
+            .calendar-day-number {
+                width: 27px;
+                height: 27px;
+
+                font-size: 8px;
+            }
+
+            .calendar-day.today
+            .calendar-day-number {
+                width: 31px;
+                height: 31px;
+            }
+
+
+            /* EVENTOS */
+
+            .calendar-events {
+                gap: 3px;
+            }
+
+            .calendar-event {
+                min-height: 23px;
+
+                padding:
+                    4px
+                    3px;
+
+                border-radius: 6px;
+            }
+
+            .calendar-event-time,
+            .calendar-event-title {
+                font-size: 6px;
+            }
+
+
+            /* LEGENDA */
+
+            .calendar-legend {
+                flex-wrap: nowrap;
+
+                justify-content: flex-start;
+
+                overflow-x: auto;
+
+                gap: 14px;
+
+                scrollbar-width: none;
+            }
+
+            .calendar-legend::-webkit-scrollbar {
+                display: none;
+            }
+
+            .legend-item {
+                flex:
+                    0 0 auto;
+
+                font-size: 9px;
+            }
+
+
+            /* =====================================================
+               MODAL MOBILE
+            ===================================================== */
+
+            .mobile-event-modal {
+                position: fixed;
+
+                inset: 0;
+
+                z-index: 2000;
+
+                display: flex;
+
+                align-items: flex-end;
+                justify-content: center;
+
+                visibility: hidden;
+
+                opacity: 0;
+
+                pointer-events: none;
+
+                padding:
+                    18px
+                    12px
+                    max(
+                        18px,
+                        env(safe-area-inset-bottom)
+                    );
+
+                background:
+                    rgba(0, 0, 0, 0.74);
+
+                backdrop-filter:
+                    blur(7px);
+
+                -webkit-backdrop-filter:
+                    blur(7px);
+
+                transition:
+                    opacity 0.24s ease,
+                    visibility 0.24s ease;
+            }
+
+
+            .mobile-event-modal.open {
+                visibility: visible;
+
+                opacity: 1;
+
+                pointer-events: auto;
+            }
+
+
+            .mobile-event-modal-card {
+                position: relative;
+
+                width: 100%;
+
+                max-width: 480px;
+
+                max-height:
+                    calc(
+                        100dvh - 90px
+                    );
+
+                overflow-y: auto;
+
+                padding:
+                    20px;
+
+                border:
+                    1px solid
+                    rgba(212, 175, 55, 0.20);
+
+                border-radius:
+                    22px;
+
+                background:
+                    radial-gradient(
+                        circle at 100% 0%,
+                        rgba(212, 175, 55, 0.07),
+                        transparent 32%
+                    ),
+                    linear-gradient(
+                        180deg,
+                        #11100d,
+                        #080808
+                    );
+
+                box-shadow:
+                    0 30px 80px
+                    rgba(0, 0, 0, 0.62);
+
+                transform:
+                    translateY(28px)
+                    scale(0.985);
+
+                transition:
+                    transform
+                    0.30s
+                    cubic-bezier(
+                        0.22,
+                        1,
+                        0.36,
+                        1
+                    );
+
+                overscroll-behavior:
+                    contain;
+            }
+
+
+            .mobile-event-modal.open
+            .mobile-event-modal-card {
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+
+            /* PUXADOR VISUAL */
+
+            .mobile-event-modal-card::before {
+                content: "";
+
+                display: block;
+
+                width: 42px;
+                height: 4px;
+
+                margin:
+                    -6px
+                    auto
+                    16px;
+
+                border-radius:
+                    999px;
+
+                background:
+                    rgba(212, 175, 55, 0.32);
+            }
+
+
+            /* O conteúdo interno é preenchido pelo calendar.js */
+
+            .mobile-event-modal-content {
+                min-width: 0;
+            }
+
+
+            /* BOTÃO FECHAR DO MODAL */
+
+            .mobile-event-modal-close {
+                position: absolute;
+
+                top: 18px;
+                right: 18px;
+
+                z-index: 2;
+
+                width: 38px;
+                height: 38px;
+
+                display: grid;
+                place-items: center;
+
+                padding: 0;
+
+                border:
+                    1px solid
+                    rgba(212, 175, 55, 0.18);
+
+                border-radius: 10px;
+
+                background:
+                    rgba(10, 10, 10, 0.92);
+
+                color:
+                    var(--text-primary);
+
+                font-size: 16px;
+            }
+
+
+            /* Reaproveita o layout de detalhes */
+
+            .mobile-event-modal
+            .event-detail-header {
+                padding-right: 46px;
+            }
+
+            .mobile-event-modal
+            .event-detail-title {
+                font-size: 23px;
+            }
+
+            .mobile-event-modal
+            .detail-list {
+                gap: 15px;
+            }
+
+            .mobile-event-modal
+            .detail-row strong {
+                font-size: 13px;
+            }
+
+            .mobile-event-modal
+            .detail-action-row {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-event-modal
+            .detail-actions button {
+                min-height: 46px;
+            }
+
+
+            /* trava página quando modal abre */
+
+            body.mobile-event-open {
+                overflow: hidden;
+            }
+
+
+            /* LIGHT MOBILE */
+
+            [data-theme="light"]
+            .mobile-event-modal-card {
+                background:
+                    radial-gradient(
+                        circle at 100% 0%,
+                        rgba(212, 175, 55, 0.09),
+                        transparent 32%
+                    ),
+                    #ffffff;
+
+                color:
+                    #171717;
+            }
+
+            [data-theme="light"]
+            .mobile-event-modal
+            .event-detail-title {
+                color:
+                    #171717;
+            }
+        }
+
+
+        /* =========================================================
+           IPHONE PEQUENO
+        ========================================================= */
+
+        @media (max-width: 430px) {
+
+            .calendar-day {
+                min-height: 78px;
+            }
+
+            .calendar-weekdays span {
+                font-size: 6.5px;
+            }
+
+            .calendar-day-number {
+                width: 25px;
+                height: 25px;
+
+                font-size: 7.5px;
+            }
+
+            .calendar-day.today
+            .calendar-day-number {
+                width: 29px;
+                height: 29px;
+            }
+
+            .calendar-event-time,
+            .calendar-event-title {
+                font-size: 5.5px;
+            }
+
+            .mobile-event-modal {
+                padding:
+                    10px
+                    8px
+                    max(
+                        10px,
+                        env(safe-area-inset-bottom)
+                    );
+            }
+
+            .mobile-event-modal-card {
+                max-height:
+                    calc(
+                        100dvh - 70px
+                    );
+
+                padding:
+                    18px;
+
+                border-radius:
+                    20px;
+            }
+        }
+
+</style>
+
+<link rel="stylesheet" href="../css/light.css?v=2">
+<link rel="stylesheet" href="../css/polish.css?v=1">
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="mobile-sidebar-header">
+
+            <span>
+                MENU
+            </span>
+
+            <button
+                type="button"
+                class="mobile-sidebar-close"
+                id="mobileSidebarClose"
+                aria-label="Fechar menu"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                <img
+                src="../assets/images/JNlogo.png"
+                alt="JN"
+                class="brand-logo-image"
+                >
+            </div>
+
+            <div class="brand-info">
+
+                <h2>
+                    JNFLOW
+                </h2>
+
+                <span>
+                    Eventos & Organização
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <a
+                href="../index.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    ⌂
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+            </a>
+
+
+            <a
+                href="calendario.html"
+                class="menu-item active"
+            >
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Calendário
+                </span>
+            </a>
+
+
+            <a
+                href="atividades.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    ✓
+                </span>
+
+                <span>
+                    Atividades
+                </span>
+            </a>
+
+
+            <a
+                href="aniversarios.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    🎂
+                </span>
+
+                <span>
+                    Aniversários
+                </span>
+            </a>
+
+
+            <a
+                href="coberturas.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    📷
+                </span>
+
+                <span>
+                    Coberturas
+                </span>
+            </a>
+
+            <a href="financeiro.html" class="menu-item">
+                <span class="menu-icon">$</span>
+                <span>Financeiro</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <button
+                type="button"
+                id="themeToggle"
+                class="theme-toggle"
+            >
+                <span id="themeIcon">
+                    ☀
+                </span>
+
+                <span id="themeText">
+                    Modo claro
+                </span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- OVERLAY SIDEBAR -->
+
+    <div
+        class="mobile-sidebar-overlay"
+        id="mobileSidebarOverlay"
+        aria-hidden="true"
+    ></div>
+
+
+
+    <!-- =========================================================
+         CONTEÚDO
+    ========================================================== -->
+
+    <main class="content">
+
+
+        <!-- MOBILE TOPBAR -->
+
+        <div class="mobile-topbar">
+
+            <div class="mobile-brand">
+
+                <div class="mobile-brand-logo">
+    <img
+        src="../assets/images/JNlogo.png"
+        alt="JN"
+        class="mobile-brand-logo-image"
+    >
+</div>
+                <div class="mobile-brand-text">
+
+                    <strong>
+                        JNFLOW
+                    </strong>
+
+                    <span>
+                        Eventos & Organização
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Abrir menu"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+
+        <!-- CABEÇALHO -->
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+
+                <h1>
+                    Calendário
+                </h1>
+
+                <p>
+                    Visualize seus eventos,
+                    aniversários e coberturas.
+                </p>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CALENDÁRIO
+        ====================================================== -->
+
+        <div class="calendar-shell">
+
+            <div class="calendar-layout">
+
+
+                <div class="calendar-main">
+
+
+                    <!-- TOOLBAR -->
+
+                    <div class="calendar-toolbar">
+
+
+                        <div class="calendar-navigation">
+
+                            <button
+                                type="button"
+                                class="calendar-nav-btn"
+                                id="prevMonth"
+                                aria-label="Mês anterior"
+                            >
+                                ←
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="calendar-today-btn"
+                                id="todayButton"
+                            >
+                                Hoje
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="calendar-nav-btn"
+                                id="nextMonth"
+                                aria-label="Próximo mês"
+                            >
+                                →
+                            </button>
+
+                        </div>
+
+
+                        <h2
+                            id="calendarTitle"
+                            class="calendar-title"
+                        >
+                            Calendário
+                        </h2>
+
+
+                        <div class="calendar-filter-wrap">
+
+                            <select
+                                id="calendarCategoryFilter"
+                                class="calendar-filter"
+                            >
+
+                                <option value="all">
+                                    Todas as categorias
+                                </option>
+
+                                <option value="Evento">
+                                    Evento
+                                </option>
+
+                                <option value="Aniversário">
+                                    Aniversário
+                                </option>
+
+                                <option value="Cobertura Fotográfica">
+                                    Cobertura Fotográfica
+                                </option>
+
+                                <option value="Filmagem">
+                                    Filmagem
+                                </option>
+
+                                <option value="Campanha">
+                                    Campanha
+                                </option>
+
+                                <option value="Institucional">
+                                    Institucional
+                                </option>
+
+                                <option value="Outro">
+                                    Outro
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- GRID -->
+
+                    <section class="panel calendar-panel">
+
+                        <div class="calendar-weekdays">
+
+                            <span>Dom</span>
+                            <span>Seg</span>
+                            <span>Ter</span>
+                            <span>Qua</span>
+                            <span>Qui</span>
+                            <span>Sex</span>
+                            <span>Sáb</span>
+
+                        </div>
+
+
+                        <div
+                            id="calendarGrid"
+                            class="calendar-grid"
+                        ></div>
+
+                    </section>
+
+
+
+                    <!-- LEGENDA -->
+
+                    <div class="calendar-legend">
+
+                        <div class="legend-item">
+                            <span class="legend-dot legend-evento"></span>
+                            Evento
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot legend-aniversario"></span>
+                            Aniversário
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot legend-cobertura"></span>
+                            Cobertura Fotográfica
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot legend-filmagem"></span>
+                            Filmagem
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot legend-campanha"></span>
+                            Campanha
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot legend-institucional"></span>
+                            Institucional
+                        </div>
+
+                        <div class="legend-item">
+                            <span class="legend-dot legend-outro"></span>
+                            Outro
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- DICA -->
+
+                    <div class="calendar-tip">
+
+                        <div class="calendar-tip-icon">
+                            i
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Dica:
+                            </strong>
+
+                            clique em um evento para ver os detalhes,
+                            editar ou gerenciar.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PAINEL DESKTOP
+                     NÃO ALTERADO
+                ================================================== -->
+
+                <aside
+                    class="event-detail-panel"
+                    id="eventDetailPanel"
+                >
+
+                    <div class="event-detail-empty">
+
+                        <div class="icon">
+                            ◷
+                        </div>
+
+                        <strong>
+                            Selecione um evento
+                        </strong>
+
+                        <span>
+                            Clique em uma atividade no calendário
+                            para visualizar os detalhes.
+                        </span>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     MODAL DE DETALHES — SOMENTE MOBILE
+========================================================== -->
+
+<div
+    class="mobile-event-modal"
+    id="mobileEventModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="mobile-event-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Detalhes da atividade"
+    >
+
+        <button
+            type="button"
+            class="mobile-event-modal-close"
+            id="mobileEventModalClose"
+            aria-label="Fechar detalhes"
+        >
+            ✕
+        </button>
+
+
+        <!--
+            calendar.js vai colocar aqui
+            o mesmo conteúdo usado no
+            painel lateral do desktop.
+        -->
+
+        <div
+            class="mobile-event-modal-content"
+            id="mobileEventModalContent"
+        >
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2"></script>
+<script src="../js/supabase.js?v=2"></script>
+<script src="../js/auth.js?v=2"></script>
+<script
+    type="module"
+    src="../js/private-app.js?v=1"
+    data-private-app
+    data-base="../js/"
+    data-scripts="theme.js,sidebar.js?v=3,navigation.js,data-service.js?v=2,events.js?v=2,ui.js,calendar.js?v=2"
+></script>
+
+</body>
+
+</html>

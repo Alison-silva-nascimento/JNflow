@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="auth-pending">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Atividades | JNFlow</title>
+
+
+    <!-- GOOGLE FONTS -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css?v=2">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css?v=4">
+
+
+    <style>
+
+        /* =========================================================
+           JNFLOW — ATIVIDADES
+           PRETO + DOURADO
+        ========================================================= */
+
+
+        /* =========================================================
+           TOOLBAR
+        ========================================================= */
+
+        .activities-toolbar {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                180px
+                220px;
+
+            gap: 12px;
+
+            margin-bottom: 18px;
+        }
+
+        .activities-toolbar input,
+        .activities-toolbar select {
+            min-height: 44px;
+
+            border-color:
+                rgba(212, 175, 55, 0.14);
+
+            background:
+                rgba(14, 14, 14, 0.92);
+        }
+
+        .activities-toolbar input:hover,
+        .activities-toolbar select:hover {
+            border-color:
+                rgba(212, 175, 55, 0.28);
+        }
+
+
+        /* =========================================================
+           RESUMO
+        ========================================================= */
+
+        .activities-summary {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 14px;
+
+            color:
+                var(--text-secondary);
+
+            font-size: 12px;
+        }
+
+        .activities-summary strong {
+            color:
+                var(--primary);
+        }
+
+
+        /* =========================================================
+           LISTA
+        ========================================================= */
+
+        .activities-list {
+            display: grid;
+
+            gap: 12px;
+        }
+
+
+        /* =========================================================
+           CARD
+        ========================================================= */
+
+        .activity-card {
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns:
+                74px
+                minmax(0, 1fr)
+                auto;
+
+            gap: 16px;
+
+            align-items: center;
+
+            overflow: hidden;
+
+            padding: 16px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.13);
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(17, 17, 17, 0.97),
+                    rgba(10, 10, 10, 0.99)
+                );
+
+            box-shadow:
+                0 12px 30px
+                rgba(0, 0, 0, 0.18);
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .activity-card::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 14px;
+            bottom: 14px;
+
+            width: 2px;
+
+            border-radius:
+                0 4px 4px 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    transparent,
+                    rgba(212, 175, 55, 0.72),
+                    transparent
+                );
+
+            opacity: 0;
+
+            transition:
+                opacity 0.2s ease;
+        }
+
+        .activity-card:hover {
+            border-color:
+                rgba(212, 175, 55, 0.30);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(22, 19, 13, 0.98),
+                    rgba(11, 10, 8, 0.99)
+                );
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 18px 40px
+                rgba(0, 0, 0, 0.28);
+        }
+
+        .activity-card:hover::before {
+            opacity: 1;
+        }
+
+
+        /* =========================================================
+           DATA
+        ========================================================= */
+
+        .activity-card-date {
+            width: 64px;
+            min-height: 64px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.22);
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.12),
+                    rgba(154, 116, 28, 0.07)
+                );
+
+            box-shadow:
+                inset 0 0 18px
+                rgba(212, 175, 55, 0.025);
+        }
+
+        .activity-card-date strong {
+            font-size: 22px;
+
+            color:
+                var(--primary);
+        }
+
+        .activity-card-date span {
+            margin-top: 2px;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            color:
+                #f0d77a;
+
+            letter-spacing:
+                0.05em;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        /* =========================================================
+           CONTEÚDO
+        ========================================================= */
+
+        .activity-card-content {
+            min-width: 0;
+        }
+
+        .activity-card-title-row {
+            display: flex;
+
+            align-items: center;
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 7px;
+        }
+
+        .activity-card-title {
+            color:
+                var(--text-primary);
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================================
+           CATEGORIA
+        ========================================================= */
+
+        .activity-card-category {
+            padding:
+                4px
+                8px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.12);
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(212, 175, 55, 0.08);
+
+            color:
+                var(--primary);
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================================
+           META
+        ========================================================= */
+
+        .activity-card-meta {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            color:
+                var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+        .activity-card-meta span {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 4px;
+        }
+
+
+        /* =========================================================
+           COBERTURA
+        ========================================================= */
+
+        .activity-card-coverage {
+            margin-top: 8px;
+
+            display: inline-flex;
+
+            padding:
+                5px
+                8px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.11);
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(212, 175, 55, 0.08),
+                    rgba(154, 116, 28, 0.05)
+                );
+
+            color:
+                #e2c45a;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           AÇÕES
+        ========================================================= */
+
+        .activity-card-actions {
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: flex-end;
+
+            gap: 8px;
+        }
+
+        .activity-action-buttons {
+            display: flex;
+
+            gap: 7px;
+        }
+
+        .activity-action-btn {
+            min-height: 36px;
+
+            padding:
+                0
+                11px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 9px;
+
+            background:
+                var(--surface-soft);
+
+            color:
+                var(--text-primary);
+
+            font-size: 10px;
+            font-weight: 700;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .activity-action-btn:hover {
+            border-color:
+                rgba(212, 175, 55, 0.30);
+
+            background:
+                rgba(212, 175, 55, 0.07);
+
+            color:
+                #f0d77a;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =========================================================
+           CONCLUIR
+        ========================================================= */
+
+        .activity-action-btn.complete {
+            border-color:
+                rgba(74, 222, 128, 0.16);
+
+            background:
+                rgba(74, 222, 128, 0.08);
+
+            color:
+                #86efac;
+        }
+
+        .activity-action-btn.complete:hover {
+            border-color:
+                rgba(74, 222, 128, 0.30);
+
+            background:
+                rgba(74, 222, 128, 0.13);
+
+            color:
+                #bbf7d0;
+        }
+
+
+        /* =========================================================
+           EXCLUIR
+        ========================================================= */
+
+        .activity-action-btn.delete {
+            border-color:
+                rgba(251, 113, 133, 0.18);
+
+            background:
+                rgba(251, 113, 133, 0.08);
+
+            color:
+                #fb7185;
+        }
+
+        .activity-action-btn.delete:hover {
+            border-color:
+                rgba(251, 113, 133, 0.34);
+
+            background:
+                rgba(251, 113, 133, 0.13);
+
+            color:
+                #fda4af;
+        }
+
+
+        /* =========================================================
+           LIGHT MODE
+        ========================================================= */
+
+        [data-theme="light"]
+        .activities-toolbar input,
+
+        [data-theme="light"]
+        .activities-toolbar select {
+            background:
+                #ffffff;
+
+            color:
+                #171717;
+        }
+
+
+        [data-theme="light"]
+        .activity-card {
+            background:
+                #ffffff;
+
+            border-color:
+                rgba(154, 116, 28, 0.14);
+
+            box-shadow:
+                0 12px 28px
+                rgba(42, 33, 15, 0.05);
+        }
+
+
+        [data-theme="light"]
+        .activity-card:hover {
+            background:
+                #fffdf8;
+
+            border-color:
+                rgba(154, 116, 28, 0.28);
+        }
+
+
+        [data-theme="light"]
+        .activity-card-date {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.12),
+                    rgba(154, 116, 28, 0.05)
+                );
+        }
+
+
+        [data-theme="light"]
+        .activity-card-coverage {
+            background:
+                #faf6eb;
+
+            color:
+                #8c6716;
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .activities-toolbar {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .activity-card {
+                grid-template-columns:
+                    64px
+                    1fr;
+            }
+
+            .activity-card-actions {
+                grid-column:
+                    2;
+
+                align-items:
+                    flex-start;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+           SOMENTE ALTERA MOBILE
+        ========================================================= */
+
+        @media (max-width: 768px) {
+
+
+            /* =====================================================
+               CABEÇALHO
+            ===================================================== */
+
+            .activities-page-header
+            .topbar-actions {
+                display: none;
+            }
+
+
+            /* =====================================================
+               PAINEL
+            ===================================================== */
+
+            .activities-panel {
+                padding:
+                    14px;
+
+                border-radius:
+                    16px;
+            }
+
+
+            /* =====================================================
+               FILTROS
+            ===================================================== */
+
+            .activities-toolbar {
+                display: grid;
+
+                grid-template-columns:
+                    1fr;
+
+                gap: 9px;
+
+                margin-bottom:
+                    15px;
+            }
+
+
+            .activities-toolbar input,
+            .activities-toolbar select {
+                width: 100%;
+
+                min-height: 44px;
+
+                padding:
+                    0 13px;
+
+                border-radius:
+                    10px;
+
+                font-size:
+                    12px;
+            }
+
+
+            /* =====================================================
+               RESUMO
+            ===================================================== */
+
+            .activities-summary {
+                margin:
+                    0
+                    0
+                    13px;
+
+                font-size:
+                    10px;
+            }
+
+
+            /* =====================================================
+               LISTA
+            ===================================================== */
+
+            .activities-list {
+                gap: 10px;
+            }
+
+
+            /* =====================================================
+               CARD MOBILE
+            ===================================================== */
+
+            .activity-card {
+                display: grid;
+
+                grid-template-columns:
+                    58px
+                    minmax(0, 1fr);
+
+                gap:
+                    12px;
+
+                align-items:
+                    start;
+
+                padding:
+                    14px;
+
+                border-radius:
+                    15px;
+
+                transform:
+                    none !important;
+            }
+
+
+            /*
+               No mobile não precisamos
+               do hover de desktop.
+            */
+
+            .activity-card:hover {
+                transform:
+                    none;
+
+                box-shadow:
+                    0 12px 30px
+                    rgba(0, 0, 0, 0.18);
+            }
+
+
+            .activity-card::before {
+                top: 12px;
+                bottom: 12px;
+
+                opacity:
+                    0.55;
+            }
+
+
+            /* =====================================================
+               DATA
+            ===================================================== */
+
+            .activity-card-date {
+                width: 56px;
+
+                min-height: 58px;
+
+                border-radius:
+                    13px;
+            }
+
+            .activity-card-date strong {
+                font-size:
+                    20px;
+            }
+
+            .activity-card-date span {
+                font-size:
+                    8px;
+            }
+
+
+            /* =====================================================
+               CONTEÚDO
+            ===================================================== */
+
+            .activity-card-content {
+                padding-top:
+                    2px;
+            }
+
+            .activity-card-title-row {
+                gap: 6px;
+
+                margin-bottom:
+                    7px;
+            }
+
+            .activity-card-title {
+                font-size:
+                    14px;
+
+                line-height:
+                    1.25;
+            }
+
+
+            /* =====================================================
+               CATEGORIA
+            ===================================================== */
+
+            .activity-card-category {
+                padding:
+                    3px
+                    7px;
+
+                font-size:
+                    7.5px;
+            }
+
+
+            /* =====================================================
+               META
+            ===================================================== */
+
+            .activity-card-meta {
+                gap:
+                    6px
+                    9px;
+
+                font-size:
+                    9px;
+
+                line-height:
+                    1.4;
+            }
+
+
+            .activity-card-meta span {
+                min-width: 0;
+            }
+
+
+            /* =====================================================
+               COBERTURA
+            ===================================================== */
+
+            .activity-card-coverage {
+                max-width:
+                    100%;
+
+                margin-top:
+                    7px;
+
+                padding:
+                    4px
+                    7px;
+
+                overflow:
+                    hidden;
+
+                font-size:
+                    8px;
+
+                text-overflow:
+                    ellipsis;
+
+                white-space:
+                    nowrap;
+            }
+
+
+            /* =====================================================
+               AÇÕES
+            ===================================================== */
+
+            .activity-card-actions {
+                grid-column:
+                    1 / -1;
+
+                width:
+                    100%;
+
+                display:
+                    grid;
+
+                gap:
+                    8px;
+
+                align-items:
+                    stretch;
+
+                margin-top:
+                    3px;
+            }
+
+
+            /*
+               O status continua acima
+               dos botões.
+            */
+
+            .activity-card-actions
+            .status {
+                justify-self:
+                    stretch;
+
+                width:
+                    100%;
+
+                text-align:
+                    center;
+
+                font-size:
+                    8px;
+            }
+
+
+            .activity-action-buttons {
+                width:
+                    100%;
+
+                display:
+                    grid;
+
+                grid-template-columns:
+                    repeat(
+                        3,
+                        minmax(0, 1fr)
+                    );
+
+                gap:
+                    7px;
+            }
+
+
+            .activity-action-btn {
+                width:
+                    100%;
+
+                min-width:
+                    0;
+
+                min-height:
+                    40px;
+
+                padding:
+                    0
+                    6px;
+
+                display:
+                    flex;
+
+                align-items:
+                    center;
+
+                justify-content:
+                    center;
+
+                border-radius:
+                    9px;
+
+                font-size:
+                    9px;
+
+                white-space:
+                    nowrap;
+            }
+
+
+            /* =====================================================
+               TOUCH
+            ===================================================== */
+
+            .activity-action-btn:active {
+                transform:
+                    scale(0.97);
+            }
+        }
+
+
+        /* =========================================================
+           IPHONE / 430px
+        ========================================================= */
+
+        @media (max-width: 430px) {
+
+            .activities-panel {
+                padding:
+                    12px;
+            }
+
+
+            .activity-card {
+                grid-template-columns:
+                    54px
+                    minmax(0, 1fr);
+
+                gap:
+                    10px;
+
+                padding:
+                    12px;
+            }
+
+
+            .activity-card-date {
+                width:
+                    52px;
+
+                min-height:
+                    55px;
+            }
+
+
+            .activity-card-date strong {
+                font-size:
+                    19px;
+            }
+
+
+            .activity-card-title {
+                font-size:
+                    13px;
+            }
+
+
+            .activity-action-btn {
+                min-height:
+                    38px;
+
+                font-size:
+                    8px;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE MUITO PEQUENO
+        ========================================================= */
+
+        @media (max-width: 360px) {
+
+            .activity-card {
+                grid-template-columns:
+                    50px
+                    minmax(0, 1fr);
+            }
+
+
+            .activity-card-date {
+                width:
+                    48px;
+
+                min-height:
+                    52px;
+            }
+
+
+            .activity-action-buttons {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .activity-action-btn {
+                min-height:
+                    42px;
+            }
+        }
+
+</style>
+
+<link rel="stylesheet" href="../css/light.css?v=2">
+<link rel="stylesheet" href="../css/polish.css?v=1">
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+
+        <!-- MOBILE SIDEBAR HEADER -->
+
+        <div class="mobile-sidebar-header">
+
+            <span>
+                MENU
+            </span>
+
+
+            <button
+                type="button"
+                class="mobile-sidebar-close"
+                id="mobileSidebarClose"
+                aria-label="Fechar menu"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <!-- BRAND -->
+        
+<div class="brand">
+
+    <div class="brand-logo">
+
+        <img
+            src="../assets/images/JNlogo.png"
+            alt="JN"
+            class="brand-logo-image"
+        >
+
+    </div>
+
+
+    <div class="brand-info">
+
+        <h2>
+            JNFLOW
+        </h2>
+
+        <span>
+            Eventos & Organização
+        </span>
+
+    </div>
+
+</div>
+
+
+        <!-- MENU -->
+
+        <nav class="menu">
+
+            <a
+                href="../index.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    ⌂
+                </span>
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="calendario.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                Calendário
+
+            </a>
+
+
+            <a
+                href="atividades.html"
+                class="menu-item active"
+            >
+
+                <span class="menu-icon">
+                    ✓
+                </span>
+
+                Atividades
+
+            </a>
+
+
+            <a
+                href="aniversarios.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    🎂
+                </span>
+
+                Aniversários
+
+            </a>
+
+
+            <a
+                href="coberturas.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    📷
+                </span>
+
+                Coberturas
+
+            </a>
+
+            <a href="financeiro.html" class="menu-item">
+                <span class="menu-icon">$</span>
+                Financeiro
+            </a>
+
+        </nav>
+
+
+        <!-- TEMA -->
+
+        <div class="sidebar-footer">
+
+            <button
+                type="button"
+                id="themeToggle"
+                class="theme-toggle"
+            >
+
+                <span id="themeIcon">
+                    ☀
+                </span>
+
+                <span id="themeText">
+                    Modo claro
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         OVERLAY MOBILE
+    ========================================================== -->
+
+    <div
+        class="mobile-sidebar-overlay"
+        id="mobileSidebarOverlay"
+        aria-hidden="true"
+    >
+    </div>
+
+
+
+    <!-- =========================================================
+         CONTEÚDO
+    ========================================================== -->
+
+    <main class="content">
+
+
+        <!-- =====================================================
+             MOBILE TOPBAR
+        ====================================================== -->
+
+        <div class="mobile-topbar">
+
+            <div class="mobile-brand">
+
+                <div class="mobile-brand-logo">
+    <img
+        src="../assets/images/JNlogo.png"
+        alt="JN"
+        class="mobile-brand-logo-image"
+    >
+</div>
+
+
+                <div class="mobile-brand-text">
+
+                    <strong>
+                        JNFLOW
+                    </strong>
+
+                    <span>
+                        Eventos & Organização
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Abrir menu"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             CABEÇALHO
+        ====================================================== -->
+
+        <header class="topbar activities-page-header">
+
+            <div class="topbar-title">
+
+                <!--
+                    Removi o segundo "JNFLOW".
+                    A marca já está no topo mobile.
+                -->
+
+                <h1>
+                    Atividades
+                </h1>
+
+
+                <p>
+                    Gerencie todos os eventos,
+                    tarefas e coberturas cadastradas.
+                </p>
+
+            </div>
+
+
+            <!--
+                Mantido para desktop.
+                Oculto apenas no mobile.
+            -->
+
+            <div class="topbar-actions">
+
+                <a
+                    href="../index.html"
+                    class="btn-secondary"
+                >
+                    ← Dashboard
+                </a>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             PAINEL
+        ====================================================== -->
+
+        <section class="panel activities-panel">
+
+
+            <!-- FILTROS -->
+
+            <div class="activities-toolbar">
+
+                <input
+                    type="search"
+                    id="activitySearch"
+                    placeholder="Buscar atividade, responsável, local..."
+                    autocomplete="off"
+                >
+
+
+                <select id="activityStatusFilter">
+
+                    <option value="all">
+                        Todos os status
+                    </option>
+
+                    <option value="Pendente">
+                        Pendente
+                    </option>
+
+                    <option value="Confirmado">
+                        Confirmado
+                    </option>
+
+                    <option value="Concluído">
+                        Concluído
+                    </option>
+
+                    <option value="Cancelado">
+                        Cancelado
+                    </option>
+
+                </select>
+
+
+                <select id="activityCategoryFilter">
+
+                    <option value="all">
+                        Todas as categorias
+                    </option>
+
+                    <option value="Evento">
+                        Evento
+                    </option>
+
+                    <option value="Aniversário">
+                        Aniversário
+                    </option>
+
+                    <option value="Cobertura Fotográfica">
+                        Cobertura Fotográfica
+                    </option>
+
+                    <option value="Filmagem">
+                        Filmagem
+                    </option>
+
+                    <option value="Campanha">
+                        Campanha
+                    </option>
+
+                    <option value="Institucional">
+                        Institucional
+                    </option>
+
+                    <option value="Outro">
+                        Outro
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- RESUMO -->
+
+            <div class="activities-summary">
+
+                <span>
+
+                    Mostrando
+
+                    <strong id="activityResultCount">
+                        0
+                    </strong>
+
+                    atividades
+
+                </span>
+
+            </div>
+
+
+
+            <!-- LISTA -->
+
+            <div
+                class="activities-list"
+                id="activitiesList"
+            >
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2"></script>
+<script src="../js/supabase.js?v=2"></script>
+<script src="../js/auth.js?v=2"></script>
+<script
+    type="module"
+    src="../js/private-app.js?v=1"
+    data-private-app
+    data-base="../js/"
+    data-scripts="theme.js,sidebar.js?v=3,navigation.js,data-service.js?v=2,events.js?v=2,ui.js,activities.js?v=2"
+></script>
+
+</body>
+
+</html>

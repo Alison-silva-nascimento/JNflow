@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="auth-pending">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="JNFlow - Agenda inteligente para gestão de eventos, aniversários, atividades e coberturas."
+    >
+
+    <title>JNFlow | Eventos & Organização</title>
+
+    <!-- GOOGLE FONTS -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css?v=2">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css?v=4">
+    <link rel="stylesheet" href="css/light.css?v=2">
+    <link rel="stylesheet" href="css/polish.css?v=1">
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- ==================================================
+         SIDEBAR DESKTOP + MOBILE OFF-CANVAS
+    =================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <!-- HEADER EXCLUSIVO MOBILE -->
+
+        <div class="mobile-sidebar-header">
+
+            <span>
+                MENU
+            </span>
+
+            <button
+                type="button"
+                class="mobile-sidebar-close"
+                id="mobileSidebarClose"
+                aria-label="Fechar menu"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+              <div class="brand-logo">
+                <img
+                src="assets/images/JNlogo.png"
+                alt="JN"
+                class="brand-logo-image"
+                >
+            </div>
+
+            <div class="brand-info">
+
+                <h2>
+                    JNFLOW
+                </h2>
+
+                <span>
+                    Eventos & Organização
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <nav class="menu">
+
+            <a
+                href="index.html"
+                class="menu-item active"
+            >
+
+                <span class="menu-icon">
+                    ⌂
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="pages/calendario.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Calendário
+                </span>
+
+            </a>
+
+
+            <a
+                href="pages/atividades.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    ✓
+                </span>
+
+                <span>
+                    Atividades
+                </span>
+
+            </a>
+
+
+            <a
+                href="pages/aniversarios.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    🎂
+                </span>
+
+                <span>
+                    Aniversários
+                </span>
+
+            </a>
+
+
+            <a
+                href="pages/coberturas.html"
+                class="menu-item"
+            >
+
+                <span class="menu-icon">
+                    📷
+                </span>
+
+                <span>
+                    Coberturas
+                </span>
+
+            </a>
+
+            <a
+                href="pages/financeiro.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">$</span>
+                <span>Financeiro</span>
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="sidebar-footer">
+
+            <button
+                type="button"
+                id="themeToggle"
+                class="theme-toggle"
+            >
+
+                <span id="themeIcon">
+                    ☾
+                </span>
+
+                <span id="themeText">
+                    Modo escuro
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- OVERLAY MOBILE -->
+
+    <div
+        class="mobile-sidebar-overlay"
+        id="mobileSidebarOverlay"
+        aria-hidden="true"
+    >
+    </div>
+
+
+
+    <!-- ==================================================
+         CONTEÚDO
+    =================================================== -->
+
+    <main class="content dashboard-v2">
+
+
+        <!-- ==================================================
+             TOPBAR MOBILE
+             Invisível no desktop
+        =================================================== -->
+
+        <div class="mobile-topbar">
+
+            <div class="mobile-brand">
+
+                  <div class="mobile-brand-logo">
+    <img
+        src="assets/images/JNlogo.png"
+        alt="JN"
+        class="mobile-brand-logo-image"
+    >
+</div>
+
+                <div class="mobile-brand-text">
+
+                    <strong>
+                        JNFLOW
+                    </strong>
+
+                    <span>
+                        Eventos & Organização
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Abrir menu"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             TOPBAR
+        =================================================== -->
+
+        <header class="topbar dashboard-topbar">
+
+            <div class="topbar-title">
+
+                <span class="page-label">
+                    JNFLOW
+                </span>
+
+                <h1>
+                    Visão geral
+                </h1>
+
+                <p>
+                    Sua agenda, eventos e produções
+                    organizados em um só lugar.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button
+                    type="button"
+                    class="btn-primary"
+                    id="openEventModal"
+                >
+
+                    <span>
+                        ＋
+                    </span>
+
+                    Nova atividade
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ==================================================
+             HERO INTELIGENTE
+        =================================================== -->
+
+        <section class="smart-hero">
+
+            <div class="smart-hero-content">
+
+                <div class="smart-hero-date">
+
+                    <span class="hero-label">
+                        HOJE
+                    </span>
+
+                    <span
+                        class="smart-date"
+                        id="currentDate"
+                    >
+                        Carregando data...
+                    </span>
+
+                </div>
+
+
+                <h2
+                    class="smart-greeting"
+                    id="heroGreeting"
+                >
+                    Bom dia, Jhennyffer.
+                </h2>
+
+
+                <p
+                    class="smart-hero-message"
+                    id="heroSummary"
+                >
+                    Vamos organizar sua agenda de hoje.
+                </p>
+
+
+                <div class="hero-day-summary">
+
+
+                    <div class="hero-summary-item">
+
+                        <span class="hero-summary-icon">
+                            ◫
+                        </span>
+
+                        <div>
+
+                            <strong id="todayActivities">
+                                0
+                            </strong>
+
+                            <span>
+                                atividades hoje
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-summary-divider"></div>
+
+
+                    <div class="hero-summary-item">
+
+                        <span class="hero-summary-icon">
+                            ◉
+                        </span>
+
+                        <div>
+
+                            <strong id="todayCoverages">
+                                0
+                            </strong>
+
+                            <span>
+                                coberturas
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-summary-divider"></div>
+
+
+                    <div class="hero-summary-item">
+
+                        <span class="hero-summary-icon">
+                            !
+                        </span>
+
+                        <div>
+
+                            <strong id="overdueCount">
+                                0
+                            </strong>
+
+                            <span>
+                                atrasadas
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRÓXIMA ATIVIDADE -->
+
+            <div class="smart-next-event">
+
+                <div class="smart-next-icon">
+                    ◷
+                </div>
+
+                <div class="smart-next-content">
+
+                    <span>
+                        PRÓXIMA ATIVIDADE
+                    </span>
+
+                    <strong id="nextEvent">
+                        Nenhum evento próximo
+                    </strong>
+
+                    <small id="nextEventCountdown">
+                        Agenda livre por enquanto
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="hero-decoration hero-decoration-one"
+            ></div>
+
+            <div
+                class="hero-decoration hero-decoration-two"
+            ></div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             INDICADORES
+        =================================================== -->
+
+        <section class="smart-stats">
+
+
+            <!-- ATIVIDADES -->
+
+            <article class="smart-stat-card">
+
+                <div class="smart-stat-top">
+
+                    <div class="smart-stat-icon">
+                        ▣
+                    </div>
+
+                    <span class="smart-stat-label">
+                        ATIVIDADES
+                    </span>
+
+                </div>
+
+
+                <strong
+                    class="smart-stat-number"
+                    id="monthEvents"
+                >
+                    0
+                </strong>
+
+
+                <div class="smart-stat-footer">
+
+                    <span>
+                        este mês
+                    </span>
+
+                    <small id="monthEventsContext">
+                        Agenda mensal
+                    </small>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- ANIVERSÁRIOS -->
+
+            <article class="smart-stat-card">
+
+                <div class="smart-stat-top">
+
+                    <div class="smart-stat-icon">
+                        🎂
+                    </div>
+
+                    <span class="smart-stat-label">
+                        ANIVERSÁRIOS
+                    </span>
+
+                </div>
+
+
+                <strong
+                    class="smart-stat-number"
+                    id="birthdaysCount"
+                >
+                    0
+                </strong>
+
+
+                <div class="smart-stat-footer">
+
+                    <span id="birthdayStatText">
+                        neste mês
+                    </span>
+
+                    <small id="birthdayStatContext">
+                        Datas importantes
+                    </small>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- PENDÊNCIAS -->
+
+            <article class="smart-stat-card warning-card">
+
+                <div class="smart-stat-top">
+
+                    <div class="smart-stat-icon warning">
+                        ◷
+                    </div>
+
+                    <span class="smart-stat-label">
+                        PENDÊNCIAS
+                    </span>
+
+                </div>
+
+
+                <strong
+                    class="smart-stat-number"
+                    id="pendingCount"
+                >
+                    0
+                </strong>
+
+
+                <div class="smart-stat-footer">
+
+                    <span id="pendingStatText">
+                        tudo em dia
+                    </span>
+
+                    <small>
+                        atividades abertas
+                    </small>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- CONCLUÍDOS -->
+
+            <article class="smart-stat-card success-card">
+
+                <div class="smart-stat-top">
+
+                    <div class="smart-stat-icon success">
+                        ✓
+                    </div>
+
+                    <span class="smart-stat-label">
+                        CONCLUÍDOS
+                    </span>
+
+                </div>
+
+
+                <strong
+                    class="smart-stat-number"
+                    id="doneCount"
+                >
+                    0
+                </strong>
+
+
+                <div class="smart-stat-footer">
+
+                    <span>
+                        este mês
+                    </span>
+
+                    <small>
+                        atividades finalizadas
+                    </small>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             GRID INTELIGENTE
+        =================================================== -->
+
+        <section class="intelligence-grid">
+
+
+            <!-- AGENDA DE HOJE -->
+
+            <article class="panel today-agenda-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            AGENDA
+                        </span>
+
+                        <h3>
+                            Agenda de hoje
+                        </h3>
+
+                    </div>
+
+
+                    <a
+                        href="pages/calendario.html"
+                        class="panel-link"
+                    >
+                        Ver calendário →
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="activity-list smart-timeline"
+                    id="activityList"
+                >
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ✓
+                        </div>
+
+                        <strong>
+                            Agenda livre
+                        </strong>
+
+                        <p>
+                            Nenhuma atividade próxima cadastrada.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- ATENÇÃO AGORA -->
+
+            <article class="panel attention-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            INTELIGÊNCIA
+                        </span>
+
+                        <h3>
+                            Atenção agora
+                        </h3>
+
+                    </div>
+
+                    <div class="attention-indicator">
+                        ●
+                    </div>
+
+                </div>
+
+
+                <div class="attention-content">
+
+
+                    <div class="attention-status">
+
+                        <div
+                            class="attention-status-icon"
+                            id="attentionIcon"
+                        >
+                            ✓
+                        </div>
+
+
+                        <div>
+
+                            <strong id="attentionTitle">
+                                Tudo em dia
+                            </strong>
+
+                            <span id="attentionDescription">
+                                Nenhuma pendência crítica no momento.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="attention-block">
+
+                        <span class="attention-label">
+                            PRÓXIMA COBERTURA
+                        </span>
+
+                        <strong id="attentionNextCoverage">
+                            Nenhuma cobertura próxima
+                        </strong>
+
+                        <small id="attentionNextCoverageMeta">
+                            —
+                        </small>
+
+                    </div>
+
+
+                    <div class="attention-block">
+
+                        <span class="attention-label">
+                            PRÓXIMO ANIVERSÁRIO
+                        </span>
+
+                        <strong id="attentionNextBirthday">
+                            Nenhum aniversário próximo
+                        </strong>
+
+                        <small id="attentionNextBirthdayMeta">
+                            —
+                        </small>
+
+                    </div>
+
+
+                    <a
+                        href="pages/atividades.html"
+                        class="attention-link"
+                    >
+                        Ver todas as atividades →
+                    </a>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             INSIGHTS
+        =================================================== -->
+
+        <section class="insights-grid">
+
+
+            <!-- PROGRESSO DO MÊS -->
+
+            <article class="panel progress-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            DESEMPENHO
+                        </span>
+
+                        <h3>
+                            Progresso do mês
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-content">
+
+                    <div
+                        class="progress-ring"
+                        id="monthProgressRing"
+                        style="--progress: 0;"
+                    >
+
+                        <div class="progress-ring-inner">
+
+                            <strong id="monthProgress">
+                                0%
+                            </strong>
+
+                            <span>
+                                concluído
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-details">
+
+                        <div class="progress-detail-row">
+
+                            <span>
+                                Finalizadas
+                            </span>
+
+                            <strong id="progressCompleted">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-detail-row">
+
+                            <span>
+                                Em aberto
+                            </span>
+
+                            <strong id="progressOpen">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress-detail-row">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong id="progressTotal">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <p
+                    class="progress-message"
+                    id="monthProgressText"
+                >
+                    Cadastre atividades para acompanhar seu progresso.
+                </p>
+
+            </article>
+
+
+
+            <!-- POR CATEGORIA -->
+
+            <article class="panel category-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            DISTRIBUIÇÃO
+                        </span>
+
+                        <h3>
+                            Por categoria
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="category-summary smart-category-summary"
+                    id="categorySummary"
+                >
+
+                    <div class="empty-summary">
+
+                        Nenhuma atividade cadastrada
+                        neste mês.
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             VISÃO RÁPIDA
+        =================================================== -->
+
+        <section class="quick-view-grid">
+
+
+            <!-- COBERTURAS -->
+
+            <article class="panel quick-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            PRODUÇÃO
+                        </span>
+
+                        <h3>
+                            Próximas coberturas
+                        </h3>
+
+                    </div>
+
+
+                    <a
+                        href="pages/coberturas.html"
+                        class="panel-link"
+                    >
+                        Ver todas →
+                    </a>
+
+                </div>
+
+
+                <div
+                    id="coveragePreview"
+                    class="coverage-preview"
+                >
+
+                    <div class="empty-state small">
+
+                        <div class="empty-icon">
+                            📷
+                        </div>
+
+                        <strong>
+                            Nenhuma cobertura programada
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- ANIVERSÁRIOS -->
+
+            <article class="panel quick-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            DATAS IMPORTANTES
+                        </span>
+
+                        <h3>
+                            Próximos aniversários
+                        </h3>
+
+                    </div>
+
+
+                    <a
+                        href="pages/aniversarios.html"
+                        class="panel-link"
+                    >
+                        Ver todos →
+                    </a>
+
+                </div>
+
+
+                <div
+                    id="birthdayPreview"
+                    class="birthday-preview"
+                >
+
+                    <div class="empty-state small">
+
+                        <div class="empty-icon">
+                            🎂
+                        </div>
+
+                        <strong>
+                            Nenhum aniversário próximo
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="app-footer">
+
+            <span>
+                JNFlow
+            </span>
+
+            <span>
+                Agenda inteligente • Eventos & Organização
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+
+<!-- ==================================================
+     MODAL - NOVA ATIVIDADE
+=================================================== -->
+
+<div
+    class="modal-overlay hidden"
+    id="eventModal"
+>
+
+    <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="eventModalTitle"
+    >
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="panel-label">
+                    JNFLOW
+                </span>
+
+                <h2 id="eventModalTitle">
+                    Nova atividade
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeModal"
+                aria-label="Fechar"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <form id="eventForm">
+
+            <div class="form-grid">
+
+
+                <label class="form-field full">
+
+                    <span>
+                        Título *
+                    </span>
+
+                    <input
+                        type="text"
+                        id="eventTitle"
+                        maxlength="100"
+                        required
+                        placeholder="Ex.: Cobertura do evento institucional"
+                    >
+
+                </label>
+
+
+                <label class="form-field">
+
+                    <span>
+                        Categoria *
+                    </span>
+
+                    <select
+                        id="eventCategory"
+                        required
+                    >
+
+                        <option value="Evento">
+                            🎉 Evento
+                        </option>
+
+                        <option value="Aniversário">
+                            🎂 Aniversário
+                        </option>
+
+                        <option value="Cobertura Fotográfica">
+                            📷 Cobertura fotográfica
+                        </option>
+
+                        <option value="Filmagem">
+                            🎥 Filmagem
+                        </option>
+
+                        <option value="Campanha">
+                            📢 Campanha
+                        </option>
+
+                        <option value="Institucional">
+                            🏢 Institucional
+                        </option>
+
+                        <option value="Outro">
+                            📌 Outro
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label class="form-field">
+
+                    <span>
+                        Status
+                    </span>
+
+                    <select id="eventStatus">
+
+                        <option value="Pendente">
+                            Pendente
+                        </option>
+
+                        <option value="Confirmado">
+                            Confirmado
+                        </option>
+
+                        <option value="Concluído">
+                            Concluído
+                        </option>
+
+                        <option value="Cancelado">
+                            Cancelado
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label class="form-field">
+
+                    <span>
+                        Data *
+                    </span>
+
+                    <input
+                        type="date"
+                        id="eventDate"
+                        required
+                    >
+
+                </label>
+
+
+                <label class="form-field">
+
+                    <span>
+                        Horário
+                    </span>
+
+                    <input
+                        type="time"
+                        id="eventTime"
+                    >
+
+                </label>
+
+
+                <label class="form-field">
+
+                    <span>
+                        Local
+                    </span>
+
+                    <input
+                        type="text"
+                        id="eventLocation"
+                        maxlength="100"
+                        placeholder="Ex.: Auditório"
+                    >
+
+                </label>
+
+
+                <label class="form-field">
+
+                    <span>
+                        Responsável
+                    </span>
+
+                    <input
+                        type="text"
+                        id="eventOwner"
+                        maxlength="80"
+                        placeholder="Nome do responsável"
+                    >
+
+                </label>
+
+
+                <label class="form-field">
+
+                    <span>
+                        Prioridade
+                    </span>
+
+                    <select id="eventPriority">
+
+                        <option value="Baixa">
+                            Baixa
+                        </option>
+
+                        <option
+                            value="Normal"
+                            selected
+                        >
+                            Normal
+                        </option>
+
+                        <option value="Alta">
+                            Alta
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label
+                    class="form-field"
+                    id="eventCoverageField"
+                >
+
+                    <span>
+                        Tipo de cobertura
+                    </span>
+
+                    <select id="eventCoverage">
+
+                        <option value="">
+                            Não se aplica
+                        </option>
+
+                        <option value="Fotografia">
+                            Fotografia
+                        </option>
+
+                        <option value="Vídeo">
+                            Vídeo
+                        </option>
+
+                        <option value="Foto + Vídeo">
+                            Foto + Vídeo
+                        </option>
+
+                        <option value="Stories / Redes sociais">
+                            Stories / Redes sociais
+                        </option>
+
+                        <option value="Cobertura completa">
+                            Cobertura completa
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label class="form-field full">
+
+                    <span>
+                        Observações
+                    </span>
+
+                    <textarea
+                        id="eventNotes"
+                        rows="5"
+                        maxlength="500"
+                        placeholder="Adicione informações importantes sobre a atividade..."
+                    ></textarea>
+
+                </label>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="btn-secondary"
+                    id="cancelModal"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Salvar atividade
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- TOAST -->
+
+<div
+    class="toast hidden"
+    id="toast"
+    role="status"
+    aria-live="polite"
+>
+</div>
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2"></script>
+<script src="js/supabase.js?v=2"></script>
+<script src="js/auth.js?v=2"></script>
+<script
+    type="module"
+    src="js/private-app.js?v=1"
+    data-private-app
+    data-base="js/"
+    data-scripts="theme.js,sidebar.js?v=3,data-service.js?v=2,events.js?v=2,ui.js,app.js?v=2"
+></script>
+
+
+</body>
+</html>

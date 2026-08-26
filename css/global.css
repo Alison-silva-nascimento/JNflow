@@ -1,0 +1,502 @@
+:root {
+
+    /* =========================================
+       JNFLOW — PALETA PRETO + DOURADO
+    ========================================== */
+
+    /* BRAND */
+
+    --primary: #dab94a;
+
+    --primary-hover: #efd36b;
+
+    --primary-dark: #80651f;
+
+    --secondary: #c9a83f;
+
+    --secondary-dark: #6f571c;
+
+
+    /* BACKGROUNDS */
+
+    --bg: #070707;
+
+    --surface: #101010;
+
+    --surface-soft: #151515;
+
+    --surface-hover: #1b1b1b;
+
+
+    /* TEXT */
+
+    --text-primary: #f5f5f5;
+
+    --text-secondary: #a7a7a7;
+
+    --text-muted: #6f6f6f;
+
+
+    /* BORDERS */
+
+    --border:
+        rgba(218, 185, 74, 0.14);
+
+    --border-hover:
+        rgba(218, 185, 74, 0.38);
+
+
+    /* STATUS */
+
+    --success: #4ade80;
+
+    --success-soft:
+        rgba(74, 222, 128, 0.12);
+
+    --warning: #facc15;
+
+    --warning-soft:
+        rgba(250, 204, 21, 0.12);
+
+    --danger: #fb7185;
+
+    --danger-soft:
+        rgba(251, 113, 133, 0.12);
+
+
+    /* GRADIENT */
+
+    --gradient-primary:
+        linear-gradient(
+            90deg,
+            #80651f,
+            #dab94a
+        );
+
+    --gradient-soft:
+        linear-gradient(
+            135deg,
+            rgba(218, 185, 74, 0.08),
+            rgba(128, 101, 31, 0.05)
+        );
+
+
+    /* LAYOUT */
+
+    --sidebar-width: 260px;
+
+
+    /* RADIUS */
+
+    --radius-sm: 8px;
+
+    --radius-md: 12px;
+
+    --radius-lg: 18px;
+
+    --radius-xl: 24px;
+
+
+    /* SHADOW */
+
+    --shadow-sm:
+        0 8px 24px
+        rgba(0, 0, 0, 0.26);
+
+    --shadow-md:
+        0 20px 50px
+        rgba(0, 0, 0, 0.40);
+
+    --shadow-glow:
+        0 0 60px
+        rgba(218, 185, 74, 0.06);
+
+
+    /* TRANSITIONS */
+
+    --transition:
+        0.2s ease;
+}
+
+
+/* =========================================
+   DARK THEME
+========================================= */
+
+[data-theme="dark"] {
+
+    --bg: #070707;
+
+    --surface: #101010;
+
+    --surface-soft: #151515;
+
+    --surface-hover: #1b1b1b;
+
+    --text-primary: #f5f5f5;
+
+    --text-secondary: #a7a7a7;
+
+    --text-muted: #6f6f6f;
+
+    --border:
+        rgba(218, 185, 74, 0.14);
+}
+
+
+/* =========================================
+   LIGHT THEME
+   Mantido apenas por compatibilidade
+========================================= */
+
+[data-theme="light"] {
+
+    --bg: #f3efe5;
+
+    --surface: #ffffff;
+
+    --surface-soft: #f7f3ea;
+
+    --surface-hover: #eee7d7;
+
+    --text-primary: #171717;
+
+    --text-secondary: #6b6254;
+
+    --text-muted: #9b927f;
+
+    --border:
+        rgba(128, 101, 31, 0.18);
+
+    --shadow-sm:
+        0 8px 24px
+        rgba(42, 33, 15, 0.08);
+
+    --shadow-md:
+        0 18px 44px
+        rgba(42, 33, 15, 0.12);
+}
+
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   ESTADO DE AUTENTICAÇÃO
+========================================= */
+
+html.auth-pending body {
+    visibility: hidden;
+}
+
+
+body.auth-load-failed .app {
+    display: none !important;
+}
+
+
+.auth-load-error {
+    min-height: 100vh;
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+
+.auth-load-error > div {
+    width: min(100%, 440px);
+    padding: 24px;
+    display: grid;
+    gap: 8px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    text-align: center;
+}
+
+
+.auth-load-error strong {
+    color: var(--primary);
+}
+
+
+.auth-load-error span {
+    color: var(--text-secondary);
+}
+
+
+/* =========================================
+   HTML
+========================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        "Inter",
+        Arial,
+        sans-serif;
+
+    background:
+        var(--bg);
+
+    color:
+        var(--text-primary);
+
+    transition:
+        background var(--transition),
+        color var(--transition);
+}
+
+
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+
+body,
+button,
+input,
+select,
+textarea {
+
+    font-family:
+        "Inter",
+        Arial,
+        sans-serif;
+}
+
+
+button,
+input,
+select,
+textarea {
+    font-size: 14px;
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================================
+   LINKS
+========================================= */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================
+   IMAGES
+========================================= */
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+
+/* =========================================
+   FORM ELEMENTS
+========================================= */
+
+input,
+select,
+textarea {
+
+    width: 100%;
+
+    padding:
+        11px 12px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        var(--radius-sm);
+
+    background:
+        rgba(16, 16, 16, 0.92);
+
+    color:
+        var(--text-primary);
+
+    transition:
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+}
+
+
+/* =========================================
+   FORM HOVER
+========================================= */
+
+input:hover,
+select:hover,
+textarea:hover {
+
+    border-color:
+        rgba(212, 175, 55, 0.28);
+}
+
+
+/* =========================================
+   FORM FOCUS
+========================================= */
+
+input:focus,
+select:focus,
+textarea:focus {
+
+    outline: none;
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(212, 175, 55, 0.10);
+}
+
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+input::placeholder,
+textarea::placeholder {
+
+    color:
+        var(--text-muted);
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+select option {
+
+    background:
+        #101010;
+
+    color:
+        #f5f5f5;
+}
+
+
+/* =========================================
+   TEXTAREA
+========================================= */
+
+textarea {
+    resize: vertical;
+}
+
+
+/* =========================================
+   SELECTION
+========================================= */
+
+::selection {
+
+    background:
+        rgba(212, 175, 55, 0.28);
+
+    color:
+        #ffffff;
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+
+    width: 9px;
+
+    height: 9px;
+}
+
+
+::-webkit-scrollbar-track {
+
+    background:
+        #070707;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background:
+        #3a3322;
+
+    border-radius:
+        999px;
+
+    border:
+        2px solid
+        #070707;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+        var(--primary-dark);
+}
+
+
+/* =========================================
+   FOCUS ACCESSIBILITY
+========================================= */
+
+button:focus-visible,
+a:focus-visible {
+
+    outline:
+        2px solid
+        var(--primary);
+
+    outline-offset:
+        3px;
+}
+
+
+/* =========================================
+   UTILITIES
+========================================= */
+
+.hidden {
+    display: none !important;
+}

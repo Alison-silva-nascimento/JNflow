@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="auth-pending">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JNFlow - Controle financeiro e fluxo de caixa dos eventos.">
+
+    <title>Financeiro | JNFlow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css?v=2">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css?v=4">
+    <link rel="stylesheet" href="../css/light.css?v=2">
+    <link rel="stylesheet" href="../css/polish.css?v=1">
+    <link rel="stylesheet" href="../css/finance.css?v=2">
+</head>
+
+<body>
+<div class="app">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="mobile-sidebar-header">
+            <span>MENU</span>
+            <button type="button" class="mobile-sidebar-close" id="mobileSidebarClose" aria-label="Fechar menu">✕</button>
+        </div>
+
+        <div class="brand">
+            <div class="brand-logo">
+                <img src="../assets/images/JNlogo.png" alt="JN" class="brand-logo-image">
+            </div>
+            <div class="brand-info">
+                <h2>JNFLOW</h2>
+                <span>Eventos & Organização</span>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="../index.html" class="menu-item"><span class="menu-icon">⌂</span><span>Dashboard</span></a>
+            <a href="calendario.html" class="menu-item"><span class="menu-icon">▦</span><span>Calendário</span></a>
+            <a href="atividades.html" class="menu-item"><span class="menu-icon">✓</span><span>Atividades</span></a>
+            <a href="aniversarios.html" class="menu-item"><span class="menu-icon">🎂</span><span>Aniversários</span></a>
+            <a href="coberturas.html" class="menu-item"><span class="menu-icon">📷</span><span>Coberturas</span></a>
+            <a href="financeiro.html" class="menu-item active"><span class="menu-icon">$</span><span>Financeiro</span></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button type="button" id="themeToggle" class="theme-toggle">
+                <span id="themeIcon">☾</span>
+                <span id="themeText">Modo escuro</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="mobile-sidebar-overlay" id="mobileSidebarOverlay" aria-hidden="true"></div>
+
+    <main class="content finance-page">
+        <div class="mobile-topbar">
+            <div class="mobile-brand">
+                <div class="mobile-brand-logo">
+                    <img src="../assets/images/JNlogo.png" alt="JN" class="mobile-brand-logo-image">
+                </div>
+                <div class="mobile-brand-text">
+                    <strong>JNFLOW</strong>
+                    <span>Eventos & Organização</span>
+                </div>
+            </div>
+            <button type="button" class="mobile-menu-button" id="mobileMenuButton" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">☰</button>
+        </div>
+
+        <header class="topbar finance-header">
+            <div class="topbar-title">
+                <span class="page-label">GESTÃO</span>
+                <h1>Financeiro</h1>
+                <p>Controle as entradas, despesas e valores a receber dos seus eventos.</p>
+            </div>
+            <div class="topbar-actions">
+                <button type="button" class="btn-primary" id="openFinanceModal">＋ Novo lançamento</button>
+            </div>
+        </header>
+
+        <section class="finance-summary" aria-label="Resumo financeiro">
+            <article class="finance-summary-card income">
+                <span>RECEBIDO NO MÊS</span>
+                <strong id="financeReceived">R$ 0,00</strong>
+                <small>entradas confirmadas</small>
+            </article>
+            <article class="finance-summary-card receivable">
+                <span>A RECEBER</span>
+                <strong id="financeReceivable">R$ 0,00</strong>
+                <small>lançamentos pendentes</small>
+            </article>
+            <article class="finance-summary-card overdue">
+                <span>VENCIDO</span>
+                <strong id="financeOverdue">R$ 0,00</strong>
+                <small id="financeOverdueCount">nenhum vencimento</small>
+            </article>
+            <article class="finance-summary-card balance">
+                <span>RESULTADO DO MÊS</span>
+                <strong id="financeBalance">R$ 0,00</strong>
+                <small id="financeExpenses">R$ 0,00 em despesas</small>
+            </article>
+        </section>
+
+        <section class="finance-layout">
+            <article class="panel finance-panel">
+                <div class="panel-header finance-panel-header">
+                    <div>
+                        <span class="panel-label">CAIXA</span>
+                        <h3>Lançamentos</h3>
+                    </div>
+                    <strong class="finance-result-count"><span id="financeResultCount">0</span> registros</strong>
+                </div>
+
+                <div class="finance-toolbar">
+                    <input type="search" id="financeSearch" placeholder="Buscar descrição, evento ou categoria..." aria-label="Buscar lançamentos">
+                    <select id="financeTypeFilter" aria-label="Filtrar por tipo">
+                        <option value="all">Entradas e saídas</option>
+                        <option value="income">Entradas</option>
+                        <option value="expense">Saídas</option>
+                    </select>
+                    <select id="financeStatusFilter" aria-label="Filtrar por situação">
+                        <option value="all">Todas as situações</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Pago">Pago</option>
+                        <option value="Vencido">Vencido</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                    <input type="month" id="financeMonthFilter" aria-label="Filtrar por mês">
+                </div>
+
+                <div class="finance-list" id="financeList"></div>
+            </article>
+
+            <aside class="panel finance-side-panel">
+                <div class="panel-header">
+                    <div>
+                        <span class="panel-label">ATENÇÃO</span>
+                        <h3>Contas a receber</h3>
+                    </div>
+                </div>
+                <div class="finance-receivables" id="financeReceivables"></div>
+            </aside>
+        </section>
+    </main>
+</div>
+
+<div class="modal-overlay hidden" id="financeModal" role="dialog" aria-modal="true" aria-labelledby="financeModalTitle">
+    <div class="modal finance-modal">
+        <div class="modal-header">
+            <div>
+                <span class="panel-label">FINANCEIRO</span>
+                <h2 id="financeModalTitle">Novo lançamento</h2>
+            </div>
+            <button type="button" class="modal-close" id="financeModalClose" aria-label="Fechar">✕</button>
+        </div>
+
+        <form id="financeForm">
+            <input type="hidden" id="financeId">
+            <div class="form-grid">
+                <label class="form-field">
+                    <span>Tipo *</span>
+                    <select id="financeType" required>
+                        <option value="income">Entrada</option>
+                        <option value="expense">Saída</option>
+                    </select>
+                </label>
+                <label class="form-field">
+                    <span>Situação *</span>
+                    <select id="financeStatus" required>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Pago">Pago</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </label>
+                <label class="form-field full">
+                    <span>Descrição *</span>
+                    <input type="text" id="financeDescription" required maxlength="120" placeholder="Ex.: Segunda parcela do evento">
+                </label>
+                <label class="form-field">
+                    <span>Valor *</span>
+                    <input type="text" id="financeAmount" required inputmode="decimal" placeholder="R$ 0,00">
+                </label>
+                <label class="form-field">
+                    <span>Categoria</span>
+                    <input type="text" id="financeCategory" maxlength="60" placeholder="Ex.: Pagamento de evento">
+                </label>
+                <label class="form-field full">
+                    <span>Evento relacionado</span>
+                    <select id="financeEvent"><option value="">Nenhum evento relacionado</option></select>
+                </label>
+                <label class="form-field">
+                    <span>Vencimento *</span>
+                    <input type="date" id="financeDueDate" required>
+                </label>
+                <label class="form-field">
+                    <span>Data do pagamento</span>
+                    <input type="date" id="financePaymentDate">
+                </label>
+                <label class="form-field">
+                    <span>Forma de pagamento</span>
+                    <select id="financePaymentMethod">
+                        <option value="">Não informada</option>
+                        <option>PIX</option><option>Dinheiro</option><option>Cartão</option>
+                        <option>Transferência</option><option>Boleto</option><option>Outro</option>
+                    </select>
+                </label>
+                <label class="form-field">
+                    <span>Parcela</span>
+                    <input type="text" id="financeInstallment" maxlength="20" placeholder="Ex.: 2 de 3">
+                </label>
+                <label class="form-field full">
+                    <span>Observações</span>
+                    <textarea id="financeNotes" maxlength="500" rows="3" placeholder="Informações adicionais sobre o lançamento..."></textarea>
+                </label>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="financeModalCancel">Cancelar</button>
+                <button type="submit" class="btn-primary">Salvar lançamento</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="toast hidden" id="financeToast" role="status" aria-live="polite"></div>
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2"></script>
+<script src="../js/supabase.js?v=2"></script>
+<script src="../js/auth.js?v=2"></script>
+<script
+    type="module"
+    src="../js/private-app.js?v=1"
+    data-private-app
+    data-base="../js/"
+    data-scripts="theme.js,sidebar.js?v=3,navigation.js,data-service.js?v=2,events.js?v=2,finance.js"
+></script>
+</body>
+</html>

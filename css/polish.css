@@ -1,0 +1,612 @@
+/* =========================================================
+   JNFLOW — VISUAL POLISH
+   Hierarquia, ritmo, estados e responsividade por container
+========================================================= */
+
+:root {
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+
+    --surface-1: #0b0b0a;
+    --surface-2: #11110f;
+    --surface-3: #171611;
+
+    --border-subtle:
+        rgba(218, 185, 74, 0.12);
+
+    --border-strong:
+        rgba(218, 185, 74, 0.28);
+
+    --ease-out:
+        cubic-bezier(0.22, 1, 0.36, 1);
+
+    --shadow-card:
+        0 1px 0 rgba(255, 255, 255, 0.025) inset,
+        0 16px 38px rgba(0, 0, 0, 0.22);
+}
+
+
+[data-theme="light"] {
+    --surface-1: #ffffff;
+    --surface-2: #faf7f0;
+    --surface-3: #f3eddf;
+
+    --border-subtle:
+        rgba(128, 101, 31, 0.14);
+
+    --border-strong:
+        rgba(128, 101, 31, 0.30);
+
+    --shadow-card:
+        0 1px 2px rgba(35, 28, 16, 0.035),
+        0 14px 34px rgba(35, 28, 16, 0.065);
+}
+
+
+/* =========================================================
+   BASE E TIPOGRAFIA
+========================================================= */
+
+.content {
+    container-name: jnflow-content;
+    container-type: inline-size;
+}
+
+
+.topbar-title h1 {
+    font-size:
+        clamp(28px, 2vw, 34px);
+
+    line-height: 1.08;
+
+    text-wrap: balance;
+}
+
+
+.topbar-title p {
+    max-width: 680px;
+
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+
+.panel-header h3 {
+    font-size:
+        clamp(17px, 1.25vw, 20px);
+
+    line-height: 1.2;
+
+    text-wrap: balance;
+}
+
+
+:is(
+    .panel-label,
+    .page-label,
+    .hero-label,
+    .smart-stat-label,
+    .attention-label
+) {
+    letter-spacing: 0.11em;
+}
+
+
+/* =========================================================
+   FOCO E INTERAÇÃO
+========================================================= */
+
+:is(
+    button,
+    a,
+    input,
+    select,
+    textarea
+):focus-visible {
+    outline:
+        3px solid
+        color-mix(
+            in srgb,
+            var(--primary) 36%,
+            transparent
+        );
+
+    outline-offset: 3px;
+}
+
+
+:is(
+    .btn-primary,
+    .btn-secondary,
+    .theme-toggle,
+    .menu-item,
+    .activity-action-btn,
+    .coverage-action-btn,
+    .birthday-action-btn
+) {
+    transition:
+        transform 160ms var(--ease-out),
+        background-color 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        color 160ms ease;
+}
+
+
+:is(
+    .btn-primary,
+    .btn-secondary,
+    .activity-action-btn,
+    .coverage-action-btn,
+    .birthday-action-btn
+):hover {
+    transform:
+        translateY(-1px);
+}
+
+
+:is(
+    .btn-primary,
+    .btn-secondary,
+    .theme-toggle,
+    .activity-action-btn,
+    .coverage-action-btn,
+    .birthday-action-btn
+):active {
+    transform:
+        translateY(0)
+        scale(0.98);
+}
+
+
+:is(button, input, select, textarea):disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+
+/* =========================================================
+   FORMULÁRIOS
+========================================================= */
+
+:is(input, select, textarea) {
+    border-color:
+        var(--border-subtle);
+
+    border-radius: 11px;
+
+    transition:
+        border-color 160ms ease,
+        background-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+
+:is(input, select, textarea):hover {
+    border-color:
+        var(--border-strong);
+}
+
+
+:is(input, select, textarea):focus {
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 4px
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   SUPERFÍCIES E HIERARQUIA
+========================================================= */
+
+:is(
+    .panel,
+    .smart-stat-card,
+    .activities-panel,
+    .coverage-panel,
+    .birthday-panel,
+    .calendar-panel,
+    .event-detail-panel
+) {
+    border-color:
+        var(--border-subtle);
+
+    box-shadow:
+        var(--shadow-card);
+}
+
+
+:is(
+    .panel,
+    .smart-stat-card,
+    .activity-card,
+    .coverage-card,
+    .birthday-card
+) {
+    transition:
+        transform 200ms var(--ease-out),
+        border-color 180ms ease,
+        background-color 180ms ease,
+        box-shadow 200ms ease;
+}
+
+
+:is(
+    .smart-stat-card,
+    .activity-card,
+    .coverage-card,
+    .birthday-card
+):hover {
+    border-color:
+        var(--border-strong);
+
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.035) inset,
+        0 18px 42px rgba(0, 0, 0, 0.20);
+}
+
+
+[data-theme="light"] :is(
+    .smart-stat-card,
+    .activity-card,
+    .coverage-card,
+    .birthday-card
+):hover {
+    box-shadow:
+        0 2px 5px rgba(35, 28, 16, 0.035),
+        0 18px 42px rgba(35, 28, 16, 0.09);
+}
+
+
+.smart-hero {
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.035) inset,
+        0 28px 68px rgba(0, 0, 0, 0.30);
+}
+
+
+.smart-next-event {
+    backdrop-filter:
+        blur(8px);
+}
+
+
+.smart-stat-card {
+    isolation: isolate;
+}
+
+
+.smart-stat-card::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: -1;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 12% 0%,
+            color-mix(
+                in srgb,
+                var(--primary) 8%,
+                transparent
+            ),
+            transparent 42%
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity 180ms ease;
+}
+
+
+.smart-stat-card:hover::before {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   ESTADOS VAZIOS
+========================================================= */
+
+:is(
+    .empty-state,
+    .empty-summary,
+    .calendar-empty-state
+) {
+    border-style: dashed;
+    border-color:
+        var(--border-subtle);
+
+    background:
+        linear-gradient(
+            135deg,
+            color-mix(
+                in srgb,
+                var(--surface-2) 94%,
+                var(--primary) 6%
+            ),
+            var(--surface-2)
+        );
+}
+
+
+:is(
+    .empty-state,
+    .empty-summary,
+    .calendar-empty-state
+) :is(p, span) {
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   CARDS OPERACIONAIS
+========================================================= */
+
+:is(
+    .activity-card,
+    .coverage-card,
+    .birthday-card
+) {
+    position: relative;
+}
+
+
+:is(
+    .activity-card,
+    .coverage-card
+)::after {
+    content: "";
+
+    position: absolute;
+
+    top: 14px;
+    bottom: 14px;
+    left: 0;
+
+    width: 3px;
+
+    border-radius:
+        0 4px 4px 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--primary-hover),
+            var(--primary-dark)
+        );
+
+    opacity: 0.65;
+}
+
+
+:is(
+    .activity-card-meta,
+    .coverage-meta,
+    .birthday-meta
+) {
+    line-height: 1.55;
+}
+
+
+:is(
+    .activity-card-category,
+    .coverage-tag,
+    .coverage-type,
+    .activity-card-coverage
+) {
+    border:
+        1px solid
+        var(--border-subtle);
+}
+
+
+/* =========================================================
+   CALENDÁRIO
+========================================================= */
+
+.calendar-weekdays {
+    position: sticky;
+    top: 0;
+
+    z-index: 4;
+
+    backdrop-filter:
+        blur(12px);
+}
+
+
+.calendar-day {
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease,
+        box-shadow 150ms ease;
+}
+
+
+.calendar-day:hover {
+    position: relative;
+    z-index: 2;
+
+    border-color:
+        var(--border-strong);
+
+    box-shadow:
+        inset 0 0 0 1px
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            transparent
+        );
+}
+
+
+.calendar-day.today,
+.calendar-day.is-today {
+    box-shadow:
+        inset 0 0 0 1px
+        color-mix(
+            in srgb,
+            var(--primary) 58%,
+            transparent
+        );
+}
+
+
+.calendar-event {
+    transition:
+        transform 150ms var(--ease-out),
+        filter 150ms ease;
+}
+
+
+.calendar-event:hover {
+    transform:
+        translateY(-1px);
+
+    filter:
+        brightness(1.06);
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.menu-item {
+    min-height: 48px;
+}
+
+
+.menu-item.active {
+    box-shadow:
+        inset 0 0 0 1px
+        var(--border-subtle),
+        0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+
+.desktop-sidebar-toggle {
+    backdrop-filter:
+        blur(12px);
+}
+
+
+/* =========================================================
+   CONTAINER QUERIES
+========================================================= */
+
+@container jnflow-content (min-width: 1000px) {
+
+    .smart-stats {
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+    }
+
+
+    .intelligence-grid {
+        grid-template-columns:
+            minmax(0, 1.8fr)
+            minmax(340px, 0.8fr);
+    }
+
+
+    .insights-grid,
+    .quick-view-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@container jnflow-content (min-width: 700px) and (max-width: 999px) {
+
+    .smart-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .topbar-title h1 {
+        font-size:
+            clamp(24px, 6.5vw, 28px);
+    }
+
+
+    .panel-header h3 {
+        font-size: 17px;
+    }
+
+
+    :is(
+        .smart-stat-card,
+        .activity-card,
+        .coverage-card,
+        .birthday-card,
+        .panel
+    ):hover {
+        transform: none;
+    }
+
+
+    :is(
+        .activity-action-buttons,
+        .coverage-action-buttons
+    ) {
+        gap: 8px;
+    }
+
+
+    :is(
+        .activity-action-btn,
+        .coverage-action-btn,
+        .birthday-action-btn
+    ) {
+        min-height: 42px;
+    }
+
+
+    .empty-state {
+        padding:
+            24px
+            16px;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

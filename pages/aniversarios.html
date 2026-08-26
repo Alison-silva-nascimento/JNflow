@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="auth-pending">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Aniversários | JNFlow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css?v=2">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/responsive.css?v=4">
+
+    <style>
+
+        /* =========================================
+           RESUMO
+        ========================================== */
+
+        .birthday-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+
+        /* =========================================
+           CARDS DE RESUMO
+        ========================================== */
+
+        .birthday-summary-card {
+            position: relative;
+            overflow: hidden;
+
+            padding: 18px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.18);
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(16, 16, 14, 0.98),
+                    rgba(8, 8, 7, 0.99)
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.16);
+
+            transition:
+                border-color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .birthday-summary-card:hover {
+            border-color:
+                rgba(212, 175, 55, 0.34);
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 14px 34px
+                rgba(0, 0, 0, 0.22);
+        }
+
+        .birthday-summary-card span {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color:
+                var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+        .birthday-summary-card strong {
+            color:
+                var(--text-primary);
+
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           PRÓXIMO ANIVERSÁRIO
+        ========================================== */
+
+        .birthday-summary-card.next {
+            border-color:
+                rgba(212, 175, 55, 0.30);
+
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(212, 175, 55, 0.10),
+                    transparent 42%
+                ),
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.07),
+                    rgba(12, 12, 10, 0.98)
+                );
+        }
+
+        .birthday-summary-card.next span {
+            color:
+                var(--primary);
+        }
+
+        .birthday-summary-card.next strong {
+            color:
+                #f8fafc;
+        }
+
+
+        /* =========================================
+           PAINEL
+        ========================================== */
+
+        .birthday-panel {
+            border-color:
+                rgba(212, 175, 55, 0.18);
+        }
+
+
+        /* =========================================
+           TOOLBAR
+        ========================================== */
+
+        .birthday-toolbar {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                200px;
+
+            gap: 12px;
+
+            margin-bottom: 18px;
+        }
+
+        .birthday-toolbar input,
+        .birthday-toolbar select {
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.16);
+
+            background:
+                rgba(12, 12, 11, 0.92);
+
+            color:
+                var(--text-primary);
+        }
+
+        .birthday-toolbar input:hover,
+        .birthday-toolbar select:hover {
+            border-color:
+                rgba(212, 175, 55, 0.30);
+        }
+
+        .birthday-toolbar input:focus,
+        .birthday-toolbar select:focus {
+            border-color:
+                #d4af37;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(212, 175, 55, 0.08);
+        }
+
+
+        /* =========================================
+           LISTA
+        ========================================== */
+
+        .birthday-list {
+            display: grid;
+            gap: 12px;
+        }
+
+
+        /* =========================================
+           CARD
+        ========================================== */
+
+        .birthday-card {
+            display: grid;
+
+            grid-template-columns:
+                70px
+                minmax(0, 1fr)
+                auto;
+
+            gap: 15px;
+
+            align-items: center;
+
+            padding: 16px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.16);
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(16, 16, 15, 0.98),
+                    rgba(9, 9, 8, 0.99)
+                );
+
+            box-shadow:
+                0 8px 24px
+                rgba(0, 0, 0, 0.10);
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .birthday-card:hover {
+            border-color:
+                rgba(212, 175, 55, 0.36);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(22, 20, 14, 0.98),
+                    rgba(10, 10, 8, 0.99)
+                );
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(0, 0, 0, 0.18);
+        }
+
+
+        /* =========================================
+           DATA
+        ========================================== */
+
+        .birthday-date {
+            width: 64px;
+            height: 64px;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.30);
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(212, 175, 55, 0.14),
+                    rgba(212, 175, 55, 0.04)
+                );
+        }
+
+        .birthday-date strong {
+            color:
+                #d4af37;
+
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .birthday-date span {
+            margin-top: 4px;
+
+            color:
+                #e7c75f;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        /* =========================================
+           INFO
+        ========================================== */
+
+        .birthday-info {
+            min-width: 0;
+        }
+
+        .birthday-title-row {
+            display: flex;
+
+            align-items: center;
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 7px;
+        }
+
+        .birthday-title {
+            color:
+                var(--text-primary);
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           TAG
+        ========================================== */
+
+        .birthday-tag {
+            padding:
+                4px
+                8px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.12);
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(212, 175, 55, 0.10);
+
+            color:
+                #e7c75f;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           META
+        ========================================== */
+
+        .birthday-meta {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            color:
+                var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           CONTAGEM
+        ========================================== */
+
+        .birthday-countdown {
+            margin-top: 8px;
+
+            color:
+                #d4af37;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .birthday-countdown.today {
+            color:
+                #e7c75f;
+
+            text-shadow:
+                0 0 14px
+                rgba(212, 175, 55, 0.18);
+        }
+
+
+        /* =========================================
+           AÇÕES
+        ========================================== */
+
+        .birthday-actions {
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: flex-end;
+
+            gap: 8px;
+        }
+
+        .birthday-action-buttons {
+            display: flex;
+            gap: 7px;
+        }
+
+        .birthday-action-btn {
+            min-height: 36px;
+
+            padding:
+                0 11px;
+
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.18);
+
+            border-radius:
+                9px;
+
+            background:
+                rgba(18, 18, 16, 0.95);
+
+            color:
+                var(--text-primary);
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .birthday-action-btn:hover {
+            border-color:
+                rgba(212, 175, 55, 0.45);
+
+            background:
+                rgba(212, 175, 55, 0.08);
+
+            color:
+                #e7c75f;
+        }
+
+        .birthday-action-btn.delete {
+            border-color:
+                rgba(251, 113, 133, 0.22);
+
+            background:
+                rgba(251, 113, 133, 0.07);
+
+            color:
+                #fb7185;
+        }
+
+        .birthday-action-btn.delete:hover {
+            background:
+                rgba(251, 113, 133, 0.13);
+
+            color:
+                #fda4af;
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================== */
+
+        .birthday-actions .status-badge {
+            border:
+                1px solid
+                rgba(212, 175, 55, 0.12);
+
+            background:
+                rgba(212, 175, 55, 0.10);
+
+            color:
+                #e7c75f;
+        }
+
+
+        /* =========================================
+           EMPTY
+        ========================================== */
+
+        .birthday-empty {
+            padding: 48px 20px;
+
+            border:
+                1px dashed
+                rgba(212, 175, 55, 0.18);
+
+            border-radius:
+                14px;
+
+            color:
+                var(--text-secondary);
+
+            text-align:
+                center;
+
+            background:
+                rgba(212, 175, 55, 0.015);
+        }
+
+
+        /* =========================================
+           TABLET
+        ========================================== */
+
+        @media (max-width: 900px) {
+
+            .birthday-summary-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .birthday-toolbar {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .birthday-card {
+                grid-template-columns:
+                    64px
+                    1fr;
+            }
+
+            .birthday-actions {
+                grid-column:
+                    2;
+
+                align-items:
+                    flex-start;
+            }
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================== */
+
+        @media (max-width: 768px) {
+
+            /* HEADER */
+
+            .birthday-page-header .topbar-actions {
+                display: none;
+            }
+
+
+            /* RESUMO */
+
+            .birthday-summary-grid {
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 9px;
+
+                margin-bottom: 14px;
+            }
+
+            .birthday-summary-card {
+                min-height: 86px;
+
+                padding: 12px;
+
+                border-radius: 13px;
+            }
+
+            .birthday-summary-card:hover {
+                transform: none;
+            }
+
+            .birthday-summary-card span {
+                margin-bottom: 5px;
+
+                font-size: 8px;
+
+                line-height: 1.35;
+            }
+
+            .birthday-summary-card strong {
+                font-size: 22px;
+            }
+
+            .birthday-summary-card.next {
+                grid-column:
+                    1 / -1;
+
+                min-height: auto;
+
+                padding:
+                    13px 14px;
+            }
+
+            .birthday-summary-card.next strong {
+                display: block;
+
+                font-size:
+                    15px !important;
+
+                overflow: hidden;
+
+                text-overflow: ellipsis;
+
+                white-space: nowrap;
+            }
+
+
+            /* PAINEL */
+
+            .birthday-panel {
+                padding: 12px;
+
+                border-radius: 15px;
+            }
+
+
+            /* TOOLBAR */
+
+            .birthday-toolbar {
+                display: grid;
+
+                grid-template-columns: 1fr;
+
+                gap: 9px;
+
+                margin-bottom: 12px;
+            }
+
+            .birthday-toolbar input,
+            .birthday-toolbar select {
+                width: 100%;
+
+                min-height: 44px;
+
+                padding:
+                    0 12px;
+
+                border-radius: 10px;
+
+                font-size: 12px;
+            }
+
+
+            /* LISTA */
+
+            .birthday-list {
+                gap: 10px;
+            }
+
+
+            /* CARD */
+
+            .birthday-card {
+                grid-template-columns:
+                    56px
+                    minmax(0, 1fr);
+
+                gap: 11px;
+
+                align-items: start;
+
+                padding: 13px;
+
+                border-radius: 14px;
+
+                transform: none !important;
+            }
+
+            .birthday-card:hover {
+                transform: none;
+
+                box-shadow:
+                    0 8px 24px
+                    rgba(0, 0, 0, 0.10);
+            }
+
+
+            /* DATA */
+
+            .birthday-date {
+                width: 54px;
+                height: 56px;
+
+                border-radius: 12px;
+            }
+
+            .birthday-date strong {
+                font-size: 19px;
+            }
+
+            .birthday-date span {
+                font-size: 7.5px;
+            }
+
+
+            /* INFO */
+
+            .birthday-info {
+                padding-top: 2px;
+            }
+
+            .birthday-title-row {
+                gap: 6px;
+
+                margin-bottom: 6px;
+            }
+
+            .birthday-title {
+                font-size: 13px;
+
+                line-height: 1.25;
+            }
+
+            .birthday-tag {
+                padding:
+                    3px 6px;
+
+                font-size: 7px;
+            }
+
+
+            /* META */
+
+            .birthday-meta {
+                gap:
+                    5px 8px;
+
+                font-size: 8.5px;
+
+                line-height: 1.4;
+            }
+
+
+            /* CONTAGEM */
+
+            .birthday-countdown {
+                margin-top: 6px;
+
+                font-size: 8px;
+            }
+
+
+            /* AÇÕES */
+
+            .birthday-actions {
+                grid-column:
+                    1 / -1;
+
+                width: 100%;
+
+                display: grid;
+
+                gap: 7px;
+
+                align-items: stretch;
+
+                margin-top: 2px;
+            }
+
+            .birthday-actions
+            .status-badge {
+                width: 100%;
+
+                text-align: center;
+
+                font-size: 8px;
+            }
+
+            .birthday-action-buttons {
+                width: 100%;
+
+                display: grid;
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 7px;
+            }
+
+            .birthday-action-btn {
+                width: 100%;
+
+                min-height: 40px;
+
+                padding:
+                    0 8px;
+
+                display: flex;
+
+                justify-content: center;
+                align-items: center;
+
+                font-size: 9px;
+            }
+
+            .birthday-action-btn:active {
+                transform:
+                    scale(0.97);
+            }
+
+
+            /* BOTÃO VER */
+
+            .birthday-action-btn:not(.delete) {
+                border-color:
+                    rgba(212, 175, 55, 0.30);
+
+                background:
+                    linear-gradient(
+                        90deg,
+                        rgba(154, 116, 28, 0.16),
+                        rgba(212, 175, 55, 0.10)
+                    );
+
+                color:
+                    #f0d77a;
+
+                font-weight: 800;
+            }
+
+
+            /* =====================================
+               MODAL ANIVERSÁRIO — MOBILE
+            ===================================== */
+
+            .birthday-detail-modal,
+            .birthday-modal-overlay {
+                align-items: flex-end !important;
+                justify-content: center !important;
+
+                padding:
+                    0 12px
+                    max(
+                        14px,
+                        env(safe-area-inset-bottom)
+                    ) !important;
+            }
+
+
+            /* CARD DO MODAL */
+
+            .birthday-detail-card,
+            .birthday-detail-modal .modal {
+                position: relative;
+
+                width: 100%;
+
+                max-width:
+                    420px !important;
+
+                max-height:
+                    78dvh;
+
+                margin: 0;
+
+                padding:
+                    18px 18px 20px;
+
+                overflow-y:
+                    auto;
+
+                overscroll-behavior:
+                    contain;
+
+                border:
+                    1px solid
+                    rgba(212, 175, 55, 0.24);
+
+                border-radius:
+                    20px;
+
+                background:
+                    linear-gradient(
+                        180deg,
+                        rgba(16, 16, 15, 0.99),
+                        rgba(8, 8, 8, 0.995)
+                    );
+
+                box-shadow:
+                    0 -18px 60px
+                    rgba(0, 0, 0, 0.45);
+
+                scrollbar-width:
+                    thin;
+            }
+
+
+            /* LINHA DOURADA */
+
+            .birthday-detail-card::before,
+            .birthday-detail-modal .modal::before {
+                content: "";
+
+                display: block;
+
+                width: 54px;
+                height: 3px;
+
+                margin:
+                    0 0 17px;
+
+                border-radius:
+                    999px;
+
+                background:
+                    linear-gradient(
+                        90deg,
+                        #9a741c,
+                        #d4af37,
+                        #f0d77a
+                    );
+
+                box-shadow:
+                    0 0 14px
+                    rgba(212, 175, 55, 0.15);
+            }
+
+
+            /* HEADER */
+
+            .birthday-detail-header,
+            .birthday-detail-modal
+            .modal-header {
+                position: relative;
+
+                display: flex;
+
+                justify-content:
+                    space-between;
+
+                align-items:
+                    flex-start;
+
+                gap: 12px;
+
+                margin: 0;
+
+                padding: 0;
+            }
+
+
+            /* CATEGORIA */
+
+            .birthday-detail-category,
+            .birthday-detail-modal
+            .panel-label {
+                display: block;
+
+                margin-bottom:
+                    7px;
+
+                color:
+                    #d4af37;
+
+                font-size:
+                    9px;
+
+                font-weight:
+                    800;
+
+                letter-spacing:
+                    0.09em;
+
+                text-transform:
+                    uppercase;
+            }
+
+
+            /* TÍTULO */
+
+            .birthday-detail-card h2,
+            .birthday-detail-modal h2 {
+                margin: 0;
+
+                color:
+                    #f8fafc;
+
+                font-size:
+                    20px;
+
+                font-weight:
+                    800;
+
+                line-height:
+                    1.15;
+
+                letter-spacing:
+                    -0.03em;
+            }
+
+
+            /* FECHAR */
+
+            .birthday-detail-close,
+            .birthday-detail-modal
+            .modal-close {
+                width:
+                    40px;
+
+                height:
+                    40px;
+
+                flex:
+                    0 0 40px;
+
+                display:
+                    grid;
+
+                place-items:
+                    center;
+
+                margin: 0;
+
+                border:
+                    1px solid
+                    rgba(212, 175, 55, 0.18);
+
+                border-radius:
+                    11px;
+
+                background:
+                    rgba(18, 18, 17, 0.96);
+
+                color:
+                    #f8fafc;
+
+                font-size:
+                    18px;
+            }
+
+
+            /* LISTA DE DETALHES */
+
+            .birthday-detail-list {
+                display: grid;
+
+                gap: 0;
+
+                margin-top:
+                    20px;
+            }
+
+
+            .birthday-detail-row,
+            .birthday-detail-card
+            .detail-row {
+                display: grid;
+
+                grid-template-columns:
+                    22px
+                    minmax(0, 1fr);
+
+                gap:
+                    8px;
+
+                align-items:
+                    start;
+
+                padding:
+                    8px 0;
+
+                margin: 0;
+
+                font-size:
+                    12px;
+
+                line-height:
+                    1.35;
+            }
+
+
+            /* ÍCONE */
+
+            .birthday-detail-row-icon,
+            .birthday-detail-card
+            .detail-row-icon {
+                width:
+                    22px;
+
+                display:
+                    flex;
+
+                align-items:
+                    flex-start;
+
+                justify-content:
+                    center;
+
+                padding-top:
+                    1px;
+
+                font-size:
+                    14px;
+            }
+
+
+            /* LABEL */
+
+            .birthday-detail-row span,
+            .birthday-detail-card
+            .detail-row span {
+                display:
+                    block;
+
+                margin:
+                    0 0 2px;
+
+                color:
+                    var(--text-secondary);
+
+                font-size:
+                    9px;
+
+                line-height:
+                    1.25;
+            }
+
+
+            /* VALOR */
+
+            .birthday-detail-row strong,
+            .birthday-detail-card
+            .detail-row strong {
+                display:
+                    block;
+
+                margin: 0;
+
+                color:
+                    #f8fafc;
+
+                font-size:
+                    13px;
+
+                font-weight:
+                    700;
+
+                line-height:
+                    1.35;
+
+                overflow-wrap:
+                    anywhere;
+            }
+
+
+            /* AÇÕES */
+
+            .birthday-detail-actions {
+                display:
+                    grid;
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    8px;
+
+                margin-top:
+                    16px;
+            }
+
+
+            .birthday-detail-actions button {
+                width:
+                    100%;
+
+                min-height:
+                    42px;
+
+                border-radius:
+                    10px;
+            }
+
+
+            /* SCROLL */
+
+            .birthday-detail-card::-webkit-scrollbar,
+            .birthday-detail-modal
+            .modal::-webkit-scrollbar {
+                width:
+                    4px;
+            }
+
+
+            .birthday-detail-card::-webkit-scrollbar-thumb,
+            .birthday-detail-modal
+            .modal::-webkit-scrollbar-thumb {
+                border-radius:
+                    999px;
+
+                background:
+                    rgba(212, 175, 55, 0.30);
+            }
+
+
+            /* TRAVA FUNDO */
+
+            body.modal-open,
+            body.birthday-modal-open {
+                overflow:
+                    hidden;
+            }
+        }
+
+
+        /* =========================================
+           IPHONE / MOBILE PEQUENO
+        ========================================== */
+
+        @media (max-width: 430px) {
+
+            .birthday-summary-card {
+                padding:
+                    11px;
+            }
+
+            .birthday-summary-card strong {
+                font-size:
+                    20px;
+            }
+
+
+            .birthday-card {
+                grid-template-columns:
+                    52px
+                    minmax(0, 1fr);
+
+                gap:
+                    9px;
+
+                padding:
+                    12px;
+            }
+
+
+            .birthday-date {
+                width:
+                    50px;
+
+                height:
+                    53px;
+            }
+
+
+            .birthday-title {
+                font-size:
+                    12.5px;
+            }
+
+
+            .birthday-action-btn {
+                min-height:
+                    38px;
+
+                font-size:
+                    8.5px;
+            }
+
+
+            /* MODAL */
+
+            .birthday-detail-modal,
+            .birthday-modal-overlay {
+                padding:
+                    0 10px
+                    max(
+                        10px,
+                        env(safe-area-inset-bottom)
+                    ) !important;
+            }
+
+
+            .birthday-detail-card,
+            .birthday-detail-modal .modal {
+                max-width:
+                    100% !important;
+
+                max-height:
+                    80dvh;
+
+                padding:
+                    16px 16px 18px;
+
+                border-radius:
+                    18px;
+            }
+
+
+            .birthday-detail-card::before,
+            .birthday-detail-modal
+            .modal::before {
+                width:
+                    50px;
+
+                margin-bottom:
+                    15px;
+            }
+
+
+            .birthday-detail-card h2,
+            .birthday-detail-modal h2 {
+                font-size:
+                    19px;
+            }
+
+
+            .birthday-detail-list {
+                margin-top:
+                    17px;
+            }
+
+
+            .birthday-detail-row,
+            .birthday-detail-card
+            .detail-row {
+                padding:
+                    7px 0;
+            }
+
+
+            .birthday-detail-row strong,
+            .birthday-detail-card
+            .detail-row strong {
+                font-size:
+                    12.5px;
+            }
+        }
+
+</style>
+
+<link rel="stylesheet" href="../css/light.css?v=2">
+<link rel="stylesheet" href="../css/polish.css?v=1">
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="mobile-sidebar-header">
+
+            <span>
+                MENU
+            </span>
+
+            <button
+                type="button"
+                class="mobile-sidebar-close"
+                id="mobileSidebarClose"
+                aria-label="Fechar menu"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div class="brand">
+
+               <div class="brand-logo">
+        <img
+            src="../assets/images/JNlogo.png"
+            alt="JN"
+            class="brand-logo-image"
+        >
+    </div>
+
+
+            <div class="brand-info">
+
+                <h2>
+                    JNFLOW
+                </h2>
+
+                <span>
+                    Eventos & Organização
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <a
+                href="../index.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    ⌂
+                </span>
+
+                Dashboard
+            </a>
+
+
+            <a
+                href="calendario.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                Calendário
+            </a>
+
+
+            <a
+                href="atividades.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    ✓
+                </span>
+
+                Atividades
+            </a>
+
+
+            <a
+                href="aniversarios.html"
+                class="menu-item active"
+            >
+                <span class="menu-icon">
+                    🎂
+                </span>
+
+                Aniversários
+            </a>
+
+
+            <a
+                href="coberturas.html"
+                class="menu-item"
+            >
+                <span class="menu-icon">
+                    📷
+                </span>
+
+                Coberturas
+            </a>
+
+            <a href="financeiro.html" class="menu-item">
+                <span class="menu-icon">$</span>
+                Financeiro
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <button
+                type="button"
+                id="themeToggle"
+                class="theme-toggle"
+            >
+
+                <span id="themeIcon">
+                    ☀
+                </span>
+
+                <span id="themeText">
+                    Modo claro
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         OVERLAY MOBILE
+    ========================================== -->
+
+    <div
+        class="mobile-sidebar-overlay"
+        id="mobileSidebarOverlay"
+        aria-hidden="true"
+    ></div>
+
+
+
+    <!-- =========================================
+         CONTENT
+    ========================================== -->
+
+    <main class="content">
+
+
+        <!-- MOBILE TOPBAR -->
+
+        <div class="mobile-topbar">
+
+            <div class="mobile-brand">
+
+                <div class="mobile-brand-logo">
+                    <img
+                        src="../assets/images/JNlogo.png"
+                        alt="JN"
+                        class="mobile-brand-logo-image"
+                    >
+                </div>
+
+                <div class="mobile-brand-text">
+
+                    <strong>
+                        JNFLOW
+                    </strong>
+
+                    <span>
+                        Eventos & Organização
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Abrir menu"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+
+
+        <!-- HEADER -->
+
+        <header class="topbar birthday-page-header">
+
+            <div class="topbar-title">
+
+                <h1>
+                    Aniversários
+                </h1>
+
+                <p>
+                    Acompanhe os próximos aniversários
+                    cadastrados na agenda.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <a
+                    href="../index.html"
+                    class="btn-secondary"
+                >
+                    ← Dashboard
+                </a>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             RESUMO
+        ========================================== -->
+
+        <section class="birthday-summary-grid">
+
+
+            <article class="birthday-summary-card">
+
+                <span>
+                    Aniversários cadastrados
+                </span>
+
+                <strong id="birthdayTotal">
+                    0
+                </strong>
+
+            </article>
+
+
+
+            <article class="birthday-summary-card">
+
+                <span>
+                    Neste mês
+                </span>
+
+                <strong id="birthdayCurrentMonth">
+                    0
+                </strong>
+
+            </article>
+
+
+
+            <article class="birthday-summary-card next">
+
+                <span>
+                    Próximo aniversário
+                </span>
+
+                <strong
+                    id="birthdayNext"
+                    style="font-size:18px;"
+                >
+                    Nenhum
+                </strong>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- =========================================
+             PAINEL
+        ========================================== -->
+
+        <section class="panel birthday-panel">
+
+
+            <div class="birthday-toolbar">
+
+                <input
+                    type="search"
+                    id="birthdaySearch"
+                    placeholder="Buscar aniversariante..."
+                    autocomplete="off"
+                >
+
+
+                <select id="birthdayMonthFilter">
+
+                    <option value="all">
+                        Todos os meses
+                    </option>
+
+                    <option value="0">
+                        Janeiro
+                    </option>
+
+                    <option value="1">
+                        Fevereiro
+                    </option>
+
+                    <option value="2">
+                        Março
+                    </option>
+
+                    <option value="3">
+                        Abril
+                    </option>
+
+                    <option value="4">
+                        Maio
+                    </option>
+
+                    <option value="5">
+                        Junho
+                    </option>
+
+                    <option value="6">
+                        Julho
+                    </option>
+
+                    <option value="7">
+                        Agosto
+                    </option>
+
+                    <option value="8">
+                        Setembro
+                    </option>
+
+                    <option value="9">
+                        Outubro
+                    </option>
+
+                    <option value="10">
+                        Novembro
+                    </option>
+
+                    <option value="11">
+                        Dezembro
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <div
+                class="birthday-list"
+                id="birthdayList"
+            ></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2"></script>
+<script src="../js/supabase.js?v=2"></script>
+<script src="../js/auth.js?v=2"></script>
+<script
+    type="module"
+    src="../js/private-app.js?v=1"
+    data-private-app
+    data-base="../js/"
+    data-scripts="theme.js,sidebar.js?v=3,navigation.js,data-service.js?v=2,events.js?v=2,ui.js,birthdays.js?v=2"
+></script>
+
+</body>
+
+</html>

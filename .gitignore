@@ -1,0 +1,30 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Credentials
+*.pem
+*.key
+secrets.*
+credentials.*
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Temporary/cache
+tmp/
+temp/
+.cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
