@@ -8,7 +8,7 @@
 
     // Cole aqui a Site Key pública gerada no Cloudflare Turnstile.
     // Nunca adicione a Secret Key ao frontend.
-    const TURNSTILE_SITE_KEY = "0x4AAAAAAEdJ3UC2s8MPzCdj";
+    const TURNSTILE_SITE_KEY = "0x4AAAAAAEdJ3UC2sBMPzCdj";
     const API_TIMEOUT_MS = 10000;
 
     let widgetId = null;
