@@ -2,6 +2,8 @@
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
 
 # Credentials
 *.pem
@@ -19,6 +21,7 @@ node_modules/
 tmp/
 temp/
 .cache/
+.wrangler/
 
 # IDE
 .vscode/

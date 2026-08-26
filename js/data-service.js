@@ -140,10 +140,130 @@
     }
 
 
+    function mapFinancialEntryFromDatabase(entry) {
+        return {
+            id: entry.id,
+            userId: entry.user_id,
+            type: entry.entry_type === "Saída" ? "expense" : "income",
+            description: entry.description || "",
+            category: entry.category || "",
+            amountCents: Math.round((Number(entry.amount) || 0) * 100),
+            eventId: entry.activity_id || "",
+            dueDate: entry.due_date || "",
+            paymentDate: entry.payment_date || "",
+            status: entry.status || "Pendente",
+            paymentMethod: entry.payment_method || "",
+            installment: entry.installment || "",
+            notes: entry.notes || "",
+            createdAt: entry.created_at || "",
+            updatedAt: entry.updated_at || ""
+        };
+    }
+
+
+    function mapFinancialEntryToDatabase(entry) {
+        return {
+            entry_type: entry.type === "expense" ? "Saída" : "Entrada",
+            description: entry.description || "",
+            category: entry.category || "",
+            amount: (Number(entry.amountCents) || 0) / 100,
+            activity_id: entry.eventId || null,
+            due_date: entry.dueDate || null,
+            payment_date: entry.paymentDate || null,
+            status: entry.status || "Pendente",
+            payment_method: entry.paymentMethod || "",
+            installment: entry.installment || "",
+            notes: entry.notes || ""
+        };
+    }
+
+
+    async function getFinancialEntries() {
+        const client = requireClient();
+        const user = await getAuthenticatedUser();
+
+        const { data, error } = await client
+            .from("financial_entries")
+            .select("*")
+            .eq("user_id", user.id)
+            .order("due_date", { ascending: false })
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            throw new Error("Não foi possível carregar os lançamentos.");
+        }
+
+        return (data || []).map(mapFinancialEntryFromDatabase);
+    }
+
+
+    async function createFinancialEntry(entry) {
+        const client = requireClient();
+        const user = await getAuthenticatedUser();
+
+        const { data, error } = await client
+            .from("financial_entries")
+            .insert({
+                user_id: user.id,
+                ...mapFinancialEntryToDatabase(entry)
+            })
+            .select()
+            .single();
+
+        if (error) {
+            throw new Error("Não foi possível criar o lançamento.");
+        }
+
+        return mapFinancialEntryFromDatabase(data);
+    }
+
+
+    async function updateFinancialEntry(id, entry) {
+        const client = requireClient();
+        const user = await getAuthenticatedUser();
+
+        const { data, error } = await client
+            .from("financial_entries")
+            .update(mapFinancialEntryToDatabase(entry))
+            .eq("id", id)
+            .eq("user_id", user.id)
+            .select()
+            .single();
+
+        if (error) {
+            throw new Error("Não foi possível atualizar o lançamento.");
+        }
+
+        return mapFinancialEntryFromDatabase(data);
+    }
+
+
+    async function deleteFinancialEntry(id) {
+        const client = requireClient();
+        const user = await getAuthenticatedUser();
+
+        const { error } = await client
+            .from("financial_entries")
+            .delete()
+            .eq("id", id)
+            .eq("user_id", user.id);
+
+        if (error) {
+            throw new Error("Não foi possível excluir o lançamento.");
+        }
+
+        return true;
+    }
+
+
     window.JNDataService = {
         getActivities,
         createActivity,
         updateActivity,
-        deleteActivity
+        deleteActivity,
+        getFinancialEntries,
+        createFinancialEntry,
+        updateFinancialEntry,
+        deleteFinancialEntry
     };
 })();

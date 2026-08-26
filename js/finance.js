@@ -1,8 +1,7 @@
 (function () {
     "use strict";
 
-    const FINANCE_STORAGE_KEY = "jnflow_finance_v1";
-    let entries = loadEntries();
+    let entries = [];
     let editingId = null;
 
     const $ = id => document.getElementById(id);
@@ -11,33 +10,13 @@
     const modal = $("financeModal");
     const form = $("financeForm");
 
-    function loadEntries() {
-        try {
-            const value = JSON.parse(localStorage.getItem(FINANCE_STORAGE_KEY) || "[]");
-            return Array.isArray(value) ? value : [];
-        } catch (error) {
-            return [];
-        }
-    }
-
-    function saveEntries() {
-        try {
-            localStorage.setItem(FINANCE_STORAGE_KEY, JSON.stringify(entries));
-            return true;
-        } catch (error) {
-            showToast("Não foi possível salvar o lançamento.", true);
-            return false;
-        }
+    async function loadEntries() {
+        entries = await JNDataService.getFinancialEntries();
+        return entries;
     }
 
     function escapeHTML(value = "") {
         return String(value).replace(/[&<>'"]/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#039;",'"':"&quot;"})[character]);
-    }
-
-    function generateId() {
-        return typeof crypto !== "undefined" && crypto.randomUUID
-            ? crypto.randomUUID()
-            : Date.now().toString(36) + Math.random().toString(36).slice(2);
     }
 
     function todayISO() {
@@ -206,31 +185,34 @@
         editingId = null;
     }
 
-    function submitForm(event) {
+    async function submitForm(event) {
         event.preventDefault();
         const wasEditing = Boolean(editingId);
         const amountCents = parseMoney($("financeAmount").value);
         if (amountCents <= 0) { showToast("Informe um valor maior que zero.", true); return; }
-        const now = new Date().toISOString();
         const data = {
-            id: editingId || generateId(), type: $("financeType").value,
+            type: $("financeType").value,
             description: $("financeDescription").value.trim(), category: $("financeCategory").value.trim(),
             amountCents, eventId: $("financeEvent").value, dueDate: $("financeDueDate").value,
             paymentDate: $("financePaymentDate").value, status: $("financeStatus").value,
             paymentMethod: $("financePaymentMethod").value, installment: $("financeInstallment").value.trim(),
-            notes: $("financeNotes").value.trim(), createdAt: now, updatedAt: now
+            notes: $("financeNotes").value.trim()
         };
         if (data.status === "Pago" && !data.paymentDate) data.paymentDate = todayISO();
-        if (editingId) {
-            const index = entries.findIndex(item => item.id === editingId);
-            data.createdAt = entries[index]?.createdAt || now;
-            entries[index] = data;
-        } else entries.push(data);
-        if (!saveEntries()) return;
-        closeModal(); render(); showToast(wasEditing ? "Lançamento atualizado." : "Lançamento cadastrado.");
+        try {
+            const saved = wasEditing
+                ? await JNDataService.updateFinancialEntry(editingId, data)
+                : await JNDataService.createFinancialEntry(data);
+            const index = entries.findIndex(item => item.id === saved.id);
+            if (index >= 0) entries[index] = saved;
+            else entries.push(saved);
+            closeModal(); render(); showToast(wasEditing ? "Lançamento atualizado." : "Lançamento cadastrado.");
+        } catch (error) {
+            showToast(error.message || "Não foi possível salvar o lançamento.", true);
+        }
     }
 
-    function handleAction(event) {
+    async function handleAction(event) {
         const button = event.target.closest("[data-action]");
         if (!button) return;
         const entry = entries.find(item => item.id === button.dataset.id);
@@ -238,11 +220,28 @@
         if (button.dataset.action === "edit") { openModal(entry); return; }
         if (button.dataset.action === "delete") {
             if (!window.confirm(`Excluir o lançamento "${entry.description}"?`)) return;
-            entries = entries.filter(item => item.id !== entry.id); saveEntries(); render(); showToast("Lançamento excluído."); return;
+            try {
+                await JNDataService.deleteFinancialEntry(entry.id);
+                entries = entries.filter(item => item.id !== entry.id);
+                render(); showToast("Lançamento excluído.");
+            } catch (error) {
+                showToast(error.message || "Não foi possível excluir o lançamento.", true);
+            }
+            return;
         }
-        if (button.dataset.action === "pay") { entry.status = "Pago"; entry.paymentDate = todayISO(); showToast("Pagamento confirmado."); }
-        if (button.dataset.action === "reopen") { entry.status = "Pendente"; entry.paymentDate = ""; showToast("Lançamento reaberto."); }
-        entry.updatedAt = new Date().toISOString(); saveEntries(); render();
+        const nextEntry = { ...entry };
+        if (button.dataset.action === "pay") { nextEntry.status = "Pago"; nextEntry.paymentDate = todayISO(); }
+        if (button.dataset.action === "reopen") { nextEntry.status = "Pendente"; nextEntry.paymentDate = ""; }
+        try {
+            const saved = await JNDataService.updateFinancialEntry(entry.id, nextEntry);
+            const index = entries.findIndex(item => item.id === saved.id);
+            if (index >= 0) entries[index] = saved;
+            render();
+            if (button.dataset.action === "pay") showToast("Pagamento confirmado.");
+            if (button.dataset.action === "reopen") showToast("Lançamento reaberto.");
+        } catch (error) {
+            showToast(error.message || "Não foi possível atualizar o lançamento.", true);
+        }
     }
 
     $("openFinanceModal").addEventListener("click", () => openModal());
@@ -255,5 +254,14 @@
     $("financeStatus").addEventListener("change", () => { if ($("financeStatus").value === "Pago" && !$("financePaymentDate").value) $("financePaymentDate").value = todayISO(); });
     document.addEventListener("keydown", event => { if (event.key === "Escape" && !modal.classList.contains("hidden")) closeModal(); });
 
-    render();
+    void (async () => {
+        try {
+            await reloadEvents();
+            await loadEntries();
+            render();
+        } catch (error) {
+            render();
+            showToast(error.message || "Não foi possível carregar os lançamentos.", true);
+        }
+    })();
 })();
