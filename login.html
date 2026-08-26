@@ -533,6 +533,28 @@
 
 
         /* =========================================
+           TURNSTILE
+        ========================================= */
+
+        .turnstile-group {
+            gap: 10px;
+        }
+
+
+        .turnstile-container {
+            width: 100%;
+            min-height: 65px;
+        }
+
+
+        .turnstile-help {
+            color: var(--text-muted);
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+
+        /* =========================================
            FOOTER
         ========================================= */
 
@@ -715,6 +737,31 @@
                     </div>
 
 
+                    <!-- TURNSTILE -->
+
+                    <div
+                        class="form-group turnstile-group"
+                        hidden
+                    >
+
+                        <span class="form-label">
+                            Verificação de segurança
+                        </span>
+
+                        <div
+                            id="turnstileContainer"
+                            class="turnstile-container"
+                        ></div>
+
+                        <p
+                            id="turnstileHelp"
+                            class="turnstile-help"
+                            aria-live="polite"
+                        ></p>
+
+                    </div>
+
+
                     <!-- PASSWORD -->
 
                     <div class="form-group">
@@ -794,8 +841,15 @@
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2"
     ></script>
 
+    <script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+        async
+        defer
+    ></script>
+
     <script src="js/supabase.js?v=2"></script>
-    <script src="js/auth.js?v=2"></script>
+    <script src="js/turnstile.js?v=2"></script>
+    <script src="js/auth.js?v=4"></script>
 
 
     <!-- =========================================
@@ -826,6 +880,24 @@
                 const loginMessage =
                     document.getElementById("loginMessage");
 
+                const turnstileContainer =
+                    document.getElementById("turnstileContainer");
+
+                const turnstileHelp =
+                    document.getElementById("turnstileHelp");
+
+                let captchaEnabled = false;
+
+                function setLoginAvailability(available) {
+
+                    loginButton.disabled = !available;
+
+                    loginButton.textContent =
+                        available
+                            ? "Entrar"
+                            : "Verificando segurança...";
+                }
+
 
                 /* =================================
                    JNAUTH VALIDATION
@@ -834,10 +906,6 @@
                 if (
                     typeof JNAuth === "undefined"
                 ) {
-
-                    console.error(
-                        "[JNFlow] JNAuth não foi carregado."
-                    );
 
                     loginMessage.textContent =
                         "Não foi possível carregar o sistema de autenticação.";
@@ -859,6 +927,49 @@
                 if (redirected) {
                     return;
                 }
+
+
+                /* =================================
+                   TURNSTILE
+                ================================= */
+
+                captchaEnabled =
+                    typeof JNTurnstile !== "undefined" &&
+                    JNTurnstile.isConfigured();
+
+                if (!captchaEnabled) {
+
+                    setLoginAvailability(false);
+
+                    loginMessage.textContent =
+                        "Não foi possível carregar a verificação de segurança.";
+
+                    loginMessage.className =
+                        "login-message error";
+
+                    return;
+                }
+
+                setLoginAvailability(false);
+
+                void JNTurnstile.render(
+                    turnstileContainer,
+                    state => {
+
+                            const messages = {
+                                pending: "Conclua a verificação para entrar.",
+                                verified: "Verificação concluída.",
+                                expired: "A verificação expirou. Tente novamente.",
+                                timeout: "A verificação expirou. Tente novamente.",
+                                error: "Não foi possível validar. O desafio será renovado.",
+                                unavailable: "A verificação de segurança não pôde ser carregada."
+                            };
+
+                            turnstileHelp.textContent = messages[state] || "";
+
+                        setLoginAvailability(state === "verified");
+                    }
+                );
 
 
                 /* =================================
@@ -912,6 +1023,11 @@
                         const password =
                             passwordInput.value;
 
+                        const captchaToken =
+                            captchaEnabled
+                                ? JNTurnstile.getToken()
+                                : "";
+
 
                         /* VALIDATION */
 
@@ -922,6 +1038,18 @@
 
                             loginMessage.textContent =
                                 "Informe seu e-mail e sua senha.";
+
+                            loginMessage.className =
+                                "login-message error";
+
+                            return;
+                        }
+
+
+                        if (captchaEnabled && !captchaToken) {
+
+                            loginMessage.textContent =
+                                "Conclua a verificação de segurança para entrar.";
 
                             loginMessage.className =
                                 "login-message error";
@@ -943,7 +1071,8 @@
                             const result =
                                 await JNAuth.login(
                                     email,
-                                    password
+                                    password,
+                                    captchaToken
                                 );
 
 
@@ -979,11 +1108,6 @@
 
                         catch (error) {
 
-                            console.error(
-                                "[JNFlow Login]",
-                                error
-                            );
-
                             loginMessage.textContent =
                                 "Não foi possível realizar o login.";
 
@@ -994,10 +1118,12 @@
 
                         finally {
 
-                            loginButton.disabled = false;
-
-                            loginButton.textContent =
-                                "Entrar";
+                            if (captchaEnabled) {
+                                JNTurnstile.reset();
+                                setLoginAvailability(false);
+                            } else {
+                                setLoginAvailability(true);
+                            }
 
                         }
 

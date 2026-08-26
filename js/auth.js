@@ -85,7 +85,8 @@
 
     async function login(
         email,
-        password
+        password,
+        captchaToken = ""
     ) {
 
         try {
@@ -120,7 +121,15 @@
                         email:
                             normalizedEmail,
 
-                        password
+                        password,
+
+                        ...(captchaToken
+                            ? {
+                                options: {
+                                    captchaToken
+                                }
+                            }
+                            : {})
                     });
 
 
