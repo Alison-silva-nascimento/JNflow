@@ -371,7 +371,7 @@ function renderActivities() {
                     return `
                         <article
                             class="activity-card"
-                            data-event-id="${event.id}"
+                            data-event-id="${escapeHTML(event.id)}"
                         >
 
                             <div class="activity-card-date">
@@ -469,7 +469,7 @@ function renderActivities() {
                                         type="button"
                                         class="activity-action-btn"
                                         data-action="edit"
-                                        data-event-id="${event.id}"
+                                        data-event-id="${escapeHTML(event.id)}"
                                     >
                                         ✎ Editar
                                     </button>
@@ -479,7 +479,7 @@ function renderActivities() {
                                         type="button"
                                         class="activity-action-btn complete"
                                         data-action="complete"
-                                        data-event-id="${event.id}"
+                                        data-event-id="${escapeHTML(event.id)}"
                                     >
 
                                         ${
@@ -495,7 +495,7 @@ function renderActivities() {
                                         type="button"
                                         class="activity-action-btn delete"
                                         data-action="delete"
-                                        data-event-id="${event.id}"
+                                        data-event-id="${escapeHTML(event.id)}"
                                     >
                                         🗑 Excluir
                                     </button>

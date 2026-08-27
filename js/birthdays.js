@@ -460,7 +460,7 @@ function renderBirthdays() {
                     return `
                         <article
                             class="birthday-card"
-                            data-event-id="${event.id}"
+                            data-event-id="${escapeHTML(event.id)}"
                         >
 
                             <div class="birthday-date">
@@ -573,7 +573,7 @@ function renderBirthdays() {
                                         type="button"
                                         class="birthday-action-btn"
                                         data-action="view"
-                                        data-event-id="${event.id}"
+                                        data-event-id="${escapeHTML(event.id)}"
                                     >
                                         Ver
                                     </button>
@@ -586,7 +586,7 @@ function renderBirthdays() {
                                             delete
                                         "
                                         data-action="delete"
-                                        data-event-id="${event.id}"
+                                        data-event-id="${escapeHTML(event.id)}"
                                     >
                                         Excluir
                                     </button>

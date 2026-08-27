@@ -48,6 +48,17 @@
         return entry.dueDate && entry.dueDate < todayISO() ? "Vencido" : "Pendente";
     }
 
+    const FINANCE_STATUS_CLASS = Object.freeze({
+        "Pago": "pago",
+        "Pendente": "pendente",
+        "Vencido": "vencido",
+        "Cancelado": "cancelado"
+    });
+
+    function getFinanceStatusClass(status) {
+        return FINANCE_STATUS_CLASS[status] || "pendente";
+    }
+
     function eventName(id) {
         if (!id || typeof getEventById !== "function") return "";
         return getEventById(id)?.title || "";
@@ -116,7 +127,7 @@
             const status = effectiveStatus(entry);
             const linkedEvent = eventName(entry.eventId);
             const sign = entry.type === "income" ? "+" : "−";
-            return `<article class="finance-entry ${entry.type}">
+            return `<article class="finance-entry ${entry.type === "expense" ? "expense" : "income"}">
                 <div class="finance-entry-icon" aria-hidden="true">${sign}</div>
                 <div class="finance-entry-content">
                     <strong class="finance-entry-title">${escapeHTML(entry.description)}</strong>
@@ -130,11 +141,11 @@
                 </div>
                 <div class="finance-entry-side">
                     <strong class="finance-entry-value">${sign} ${money(entry.amountCents)}</strong>
-                    <span class="finance-status ${status.toLocaleLowerCase("pt-BR")}">${status}</span>
+                    <span class="finance-status ${getFinanceStatusClass(status)}">${escapeHTML(status)}</span>
                     <div class="finance-entry-actions">
-                        <button type="button" class="finance-action" data-action="edit" data-id="${entry.id}">Editar</button>
-                        ${status !== "Pago" && status !== "Cancelado" ? `<button type="button" class="finance-action pay" data-action="pay" data-id="${entry.id}">Dar baixa</button>` : `<button type="button" class="finance-action" data-action="reopen" data-id="${entry.id}">Reabrir</button>`}
-                        <button type="button" class="finance-action delete" data-action="delete" data-id="${entry.id}">Excluir</button>
+                        <button type="button" class="finance-action" data-action="edit" data-id="${escapeHTML(entry.id)}">Editar</button>
+                        ${status !== "Pago" && status !== "Cancelado" ? `<button type="button" class="finance-action pay" data-action="pay" data-id="${escapeHTML(entry.id)}">Dar baixa</button>` : `<button type="button" class="finance-action" data-action="reopen" data-id="${escapeHTML(entry.id)}">Reabrir</button>`}
+                        <button type="button" class="finance-action delete" data-action="delete" data-id="${escapeHTML(entry.id)}">Excluir</button>
                     </div>
                 </div>
             </article>`;

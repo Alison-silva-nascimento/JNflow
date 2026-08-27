@@ -527,7 +527,7 @@ function renderUpcomingActivities() {
 
                         <div
                             class="activity-item"
-                            data-event-id="${event.id}"
+                            data-event-id="${escapeHTML(event.id)}"
                         >
 
                             <div class="activity-date">

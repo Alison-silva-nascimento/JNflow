@@ -816,7 +816,7 @@ function renderCalendar() {
                                                 ${categoryClass}
                                                 ${statusClass}
                                             "
-                                            data-event-id="${eventData.id}"
+                                            data-event-id="${escapeHTML(eventData.id)}"
                                             aria-label="${escapeHTML(eventData.title)}"
                                         >
 

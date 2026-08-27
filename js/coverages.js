@@ -416,7 +416,7 @@ function renderCoverages() {
                     return `
                         <article
                             class="coverage-card"
-                            data-event-id="${event.id}"
+                            data-event-id="${escapeHTML(event.id)}"
                         >
 
                             <div class="coverage-date">
@@ -522,7 +522,7 @@ function renderCoverages() {
                                         type="button"
                                         class="coverage-action-btn"
                                         data-action="edit"
-                                        data-event-id="${event.id}"
+                                        data-event-id="${escapeHTML(event.id)}"
                                     >
                                         ✎ Editar
                                     </button>
@@ -535,7 +535,7 @@ function renderCoverages() {
                                             complete
                                         "
                                         data-action="complete"
-                                        data-event-id="${event.id}"
+                                        data-event-id="${escapeHTML(event.id)}"
                                     >
 
                                         ${
@@ -554,7 +554,7 @@ function renderCoverages() {
                                             delete
                                         "
                                         data-action="delete"
-                                        data-event-id="${event.id}"
+                                        data-event-id="${escapeHTML(event.id)}"
                                     >
                                         🗑 Excluir
                                     </button>
