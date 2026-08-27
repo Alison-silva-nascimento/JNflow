@@ -1523,9 +1523,6 @@ async function markCalendarEventCompleted(
     );
 
 
-    await reloadEvents();
-
-
     renderCalendar();
 
 
@@ -1883,9 +1880,6 @@ function bindDeleteModal() {
             await deleteEvent(
                 eventId
             );
-
-
-            await reloadEvents();
 
 
             selectedCalendarEventId =
@@ -2637,9 +2631,6 @@ function bindCalendarEditModal() {
                             .trim()
                 }
             );
-
-
-            await reloadEvents();
 
 
             closeModal();

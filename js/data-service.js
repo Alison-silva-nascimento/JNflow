@@ -6,6 +6,41 @@
 (() => {
     "use strict";
 
+    const ACTIVITY_SELECT = [
+        "id",
+        "user_id",
+        "title",
+        "category",
+        "activity_date",
+        "activity_time",
+        "owner",
+        "location",
+        "status",
+        "priority",
+        "coverage",
+        "notes",
+        "created_at",
+        "updated_at"
+    ].join(",");
+
+    const FINANCIAL_ENTRY_SELECT = [
+        "id",
+        "user_id",
+        "activity_id",
+        "entry_type",
+        "description",
+        "category",
+        "amount",
+        "due_date",
+        "payment_date",
+        "status",
+        "payment_method",
+        "installment",
+        "notes",
+        "created_at",
+        "updated_at"
+    ].join(",");
+
     function requireClient() {
         if (!supabaseClient) {
             throw new Error("Não foi possível conectar ao banco de dados.");
@@ -68,7 +103,7 @@
 
         const { data, error } = await client
             .from("activities")
-            .select("*")
+            .select(ACTIVITY_SELECT)
             .eq("user_id", user.id)
             .order("activity_date", { ascending: true })
             .order("activity_time", { ascending: true });
@@ -91,7 +126,7 @@
                 user_id: user.id,
                 ...mapActivityToDatabase(activity)
             })
-            .select()
+            .select(ACTIVITY_SELECT)
             .single();
 
         if (error) {
@@ -111,7 +146,7 @@
             .update(mapActivityToDatabase(activity))
             .eq("id", id)
             .eq("user_id", user.id)
-            .select()
+            .select(ACTIVITY_SELECT)
             .single();
 
         if (error) {
@@ -184,7 +219,7 @@
 
         const { data, error } = await client
             .from("financial_entries")
-            .select("*")
+            .select(FINANCIAL_ENTRY_SELECT)
             .eq("user_id", user.id)
             .order("due_date", { ascending: false })
             .order("created_at", { ascending: false });
@@ -207,7 +242,7 @@
                 user_id: user.id,
                 ...mapFinancialEntryToDatabase(entry)
             })
-            .select()
+            .select(FINANCIAL_ENTRY_SELECT)
             .single();
 
         if (error) {
@@ -227,7 +262,7 @@
             .update(mapFinancialEntryToDatabase(entry))
             .eq("id", id)
             .eq("user_id", user.id)
-            .select()
+            .select(FINANCIAL_ENTRY_SELECT)
             .single();
 
         if (error) {

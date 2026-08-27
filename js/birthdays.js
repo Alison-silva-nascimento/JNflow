@@ -1063,8 +1063,6 @@ function createBirthdayDeleteModal() {
                 id
             );
 
-            await reloadEvents();
-
             closeModal();
 
             renderBirthdaySummary();

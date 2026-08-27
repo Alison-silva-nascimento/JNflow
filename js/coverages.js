@@ -604,8 +604,6 @@ async function completeCoverage(id) {
         }
     );
 
-    await reloadEvents();
-
     renderCoverageSummary();
 
     renderCoverages();
@@ -1221,8 +1219,6 @@ function bindCoverageEditModal() {
                 }
             );
 
-            await reloadEvents();
-
             closeModal();
 
             renderCoverageSummary();
@@ -1506,8 +1502,6 @@ function bindCoverageDeleteModal() {
             await deleteEvent(
                 id
             );
-
-            await reloadEvents();
 
             closeModal();
 

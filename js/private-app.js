@@ -35,6 +35,18 @@ function loadPrivateScript(src) {
     });
 }
 
+function preloadPrivateScripts(sources) {
+    sources.forEach(src => {
+        const preload = document.createElement("link");
+
+        preload.rel = "preload";
+        preload.as = "script";
+        preload.href = src;
+
+        document.head.appendChild(preload);
+    });
+}
+
 if (!loader || typeof window.JNAuth?.requireAuth !== "function") {
     showPrivateAppLoadError();
 } else {
@@ -48,8 +60,13 @@ if (!loader || typeof window.JNAuth?.requireAuth !== "function") {
                 .map(item => item.trim())
                 .filter(Boolean);
 
-            for (const script of scripts) {
-                await loadPrivateScript(`${base}${script}`);
+            const sources = scripts.map(script => `${base}${script}`);
+
+            // Downloads run in parallel; execution remains ordered for dependencies.
+            preloadPrivateScripts(sources);
+
+            for (const source of sources) {
+                await loadPrivateScript(source);
             }
 
             document.documentElement.classList.remove("auth-pending");

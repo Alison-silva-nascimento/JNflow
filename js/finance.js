@@ -256,8 +256,10 @@
 
     void (async () => {
         try {
-            await reloadEvents();
-            await loadEntries();
+            await Promise.all([
+                reloadEvents(),
+                loadEntries()
+            ]);
             render();
         } catch (error) {
             render();

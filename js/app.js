@@ -1801,9 +1801,6 @@ async function handleEventSubmit(
     closeEventModal();
 
 
-    await reloadEvents();
-
-
     renderDashboard();
 
 
@@ -1933,18 +1930,35 @@ document.addEventListener(
 
 function startDashboardClock() {
 
-    setInterval(
-        async () => {
+    let refreshing = false;
 
+    async function refreshDashboard() {
+
+        if (document.hidden || refreshing) {
+            return;
+        }
+
+        refreshing = true;
+
+        try {
             await reloadEvents();
-
             renderDashboard();
-
             renderSmartDashboard();
+        } finally {
+            refreshing = false;
+        }
+    }
 
-        },
+    setInterval(
+        refreshDashboard,
         60000
     );
+
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+            void refreshDashboard();
+        }
+    });
 }
 
 

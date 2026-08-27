@@ -6,6 +6,12 @@
 (() => {
     "use strict";
 
+    let cachedCurrentUserPromise = null;
+
+    function clearCurrentUserCache() {
+        cachedCurrentUserPromise = null;
+    }
+
 
     /* =========================================
        VALIDAR SUPABASE CLIENT
@@ -289,34 +295,27 @@
 
     async function getCurrentUser() {
 
-        try {
+        if (!cachedCurrentUserPromise) {
 
-            const {
-                data,
-                error
-            } =
-                await supabaseClient
-                    .auth
-                    .getUser();
+            cachedCurrentUserPromise = supabaseClient
+                .auth
+                .getUser()
+                .then(({ data, error }) => {
 
+                    if (error || !data?.user) {
+                        clearCurrentUserCache();
+                        return null;
+                    }
 
-            if (error) {
-
-                return null;
-            }
-
-
-            return (
-                data?.user ||
-                null
-            );
-
+                    return data.user;
+                })
+                .catch(() => {
+                    clearCurrentUserCache();
+                    return null;
+                });
         }
 
-        catch (error) {
-
-            return null;
-        }
+        return cachedCurrentUserPromise;
     }
 
 
@@ -438,6 +437,8 @@
                 event,
                 session
             ) => {
+
+                clearCurrentUserCache();
 
                 /* =================================
                    SIGNED OUT

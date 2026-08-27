@@ -552,9 +552,6 @@ async function completeActivity(id) {
     );
 
 
-    await reloadEvents();
-
-
     renderActivities();
 
 
@@ -1281,9 +1278,6 @@ function bindActivityEditModal() {
             );
 
 
-            await reloadEvents();
-
-
             closeModal();
 
 
@@ -1594,9 +1588,6 @@ function bindActivityDeleteModal() {
             await deleteEvent(
                 id
             );
-
-
-            await reloadEvents();
 
 
             closeModal();
