@@ -80,15 +80,22 @@ As telas consomem uma camada central de dados, que mantém o formato esperado pe
 
 ## Screenshots
 
-As capturas usadas no portfólio foram preparadas com dados fictícios e nomes anonimizados, como **TESTE**. Para preservar privacidade e evitar versionar dados de demonstração, as imagens não fazem parte deste repositório.
+As capturas abaixo usam dados fictícios e nomes anonimizados, como **TESTE**.
 
-| Tela | Demonstração |
-| --- | --- |
-| Login | Acesso protegido com verificação de segurança. |
-| Dashboard | Indicadores, agenda do dia e alertas operacionais. |
-| Calendário | Visão mensal, filtros e detalhes de eventos. |
-| Atividades | Criação e gestão de eventos e coberturas. |
-| Mobile | Navegação lateral e dashboard adaptados para telas pequenas. |
+<p align="center">
+  <img src="docs/screenshots/dashboard-desktop.png" alt="Dashboard do JNFlow em desktop com dados fictícios" width="82%">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/login-turnstile.png" alt="Tela de login com verificação de segurança" width="31%">
+  <img src="docs/screenshots/dashboard-mobile.png" alt="Dashboard do JNFlow em mobile" width="24%">
+  <img src="docs/screenshots/sidebar-mobile.png" alt="Menu lateral do JNFlow em mobile" width="24%">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/calendar-desktop.png" alt="Calendário mensal do JNFlow" width="49%">
+  <img src="docs/screenshots/activity-modal.png" alt="Modal de criação de atividade" width="41%">
+</p>
 
 ## Status do projeto
 
